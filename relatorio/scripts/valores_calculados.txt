@@ -1,0 +1,36 @@
+﻿I=6.2500e-05  I'=2.5000e-04  W=0.98100  Wc=0.03924  psi_d=188.4956 rad/s
+b=I psi_d=0.011781  phi_a=3.3308 rad/s = 31.807 rpm
+
+theta  a(=(I'-I)cos)   phi1(rad/s) rpm  phi2(rad/s) rpm  eps  err%  psi_min(rpm)
+ 30 1.62380e-04   3.4996   33.419    69.052    659.40 0.04591  -4.824   771.4
+ 35 1.53591e-04   3.4895   33.323    73.214    699.14 0.04342  -4.549   750.2
+ 40 1.43633e-04   3.4783   33.215    78.543    750.03 0.04061  -4.241   725.5
+ 45 1.32583e-04   3.4660   33.098    85.392    815.43 0.03748  -3.901   697.0
+ 50 1.20523e-04   3.4528   32.971    94.296    900.46 0.03407  -3.532   664.5
+ 55 1.07546e-04   3.4387   32.838   106.105   1013.23 0.03041  -3.139   627.7
+ 60 9.37500e-05   3.4241   32.698   122.240   1167.30 0.02651  -2.725   586.1
+psi_min(30)=80.776 rad/s
+sleeping: 100.23 rad/s = 957.1 rpm
+
+theta ramo  wz     H_z     Hx      T     E      Rh    Rh/W  wn    Tn   phi/psi
+30 lenta   191.53 0.01197 0.00044  1.147  1.181   0.024  0.025  41.86 0.1501 0.0186
+30 rapida  248.30 0.01552 0.00863  2.076  2.110   9.536  9.721  67.09 0.0936 0.3663
+45 lenta   190.95 0.01193 0.00061  1.140  1.168   0.034  0.035  42.91 0.1464 0.0184
+45 rapida  248.88 0.01555 0.01510  2.391  2.419  20.624 21.024  84.10 0.0747 0.4530
+60 lenta   190.21 0.01189 0.00074  1.132  1.151   0.041  0.041  44.23 0.1421 0.0182
+60 rapida  249.62 0.01560 0.02647  3.348  3.368  51.762 52.765 121.60 0.0517 0.6485
+
+Validação numérica (Euler + quatérnios, RK4, dt=2e-5 s, T=1 s)
+30 lenta  phi_ana=   3.4996 phi_num=   3.4996 desv=6.80e-10% max|dtheta|=1.76e-11 graus dE/E=1.7e-15
+30 rapida phi_ana=  69.0524 phi_num=  69.0524 desv=1.84e-10% max|dtheta|=4.96e-10 graus dE/E=1.4e-13
+45 lenta  phi_ana=   3.4660 phi_num=   3.4660 desv=6.65e-10% max|dtheta|=2.31e-11 graus dE/E=4.0e-15
+45 rapida phi_ana=  85.3917 phi_num=  85.3917 desv=4.29e-11% max|dtheta|=5.90e-10 graus dE/E=3.7e-13
+60 lenta  phi_ana=   3.4241 phi_num=   3.4241 desv=6.46e-10% max|dtheta|=2.67e-11 graus dE/E=3.9e-16
+60 rapida phi_ana= 122.2396 phi_num= 122.2396 desv=2.63e-10% max|dtheta|=5.94e-10 graus dE/E=8.2e-13
+
+Nutação: perturbação pequena (0,1 grau) e período medido
+lenta: T_formula=0.1501 s  T_sim=0.1501 s
+rapida: T_formula=0.0936 s  T_sim=0.0936 s
+Solto: theta_max=34.95 graus, theta_min=30.00, precessao media=3.552 rad/s
+
+Figuras geradas em C:\Users\marco\Documents\MEC_2\relatorio\figuras

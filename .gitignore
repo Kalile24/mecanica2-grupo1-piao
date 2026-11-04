@@ -1,0 +1,23 @@
+# Material do professor: não redistribuir
+TrabalhoMecanicaII_CFG_TurmaA_BeC-2aVE_2026.pdf
+Trabalho_2aVE_MecII_9Grupos_CFG_2026_09NOV2026.pdf
+
+# Arquivos temporários do LaTeX
+*.aux
+*.log
+*.lof
+*.lot
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+
+# PDFs intermediários: as versões finais ficam em entrega/
+relatorio/*.pdf
+entrega/*.zip
+
+# Resultados que o script recria
+relatorio/scripts/cache_simulacoes/
+__pycache__/

@@ -1,0 +1,62 @@
+% Figura: composição de omega (a) e de H_O (b), em perspectiva, com a mesma vista da
+% Figura 2(a). Todos os vetores pertencem ao plano vertical Zz. theta = 32 graus (esquemático).
+\def\S{0.5299}
+\def\C{0.8480}
+\tikzset{
+  vista3d/.style={scale=0.95,baseline=(cap.base),
+    x={(0.966cm,0.129cm)},y={(-0.259cm,0.483cm)},z={(0cm,0.866cm)}},
+  eixo/.style={-{Stealth[length=2.2mm]},tinta2,line width=0.5pt},
+  vetor/.style={-{Stealth[length=2.6mm]},line width=1.3pt},
+  resultante/.style={-{Stealth[length=3mm]},line width=1.7pt},
+  aux/.style={tinta2,densely dashed,line width=0.4pt}}%
+% #1: ângulo (em graus) em que o rótulo de theta é posicionado
+\def\cenavet#1{%
+  % eixo x: abaixo do plano de apoio, portanto desenhado antes dele
+  \draw[eixo] (0,0,0) -- ({2.3*\C},0,{-2.3*\S}) coordinate (Xp);
+  % plano de apoio horizontal
+  \fill[apoio,opacity=0.8] (-1.8,-1.6,0) -- (2.6,-1.6,0) -- (2.6,2.2,0) -- (-1.8,2.2,0) -- cycle;
+  \draw[tinta2,line width=0.3pt] (-1.8,-1.6,0) -- (2.6,-1.6,0) -- (2.6,2.2,0) -- (-1.8,2.2,0) -- cycle;
+  \node[right,inner sep=2pt] at (Xp) {$x\ (\mathbf{i})$};
+  % eixo y: atrás do plano Zz
+  \draw[eixo] (0,0,0) -- (0,2.05,0) node[left,text=black,inner sep=1.5pt] {$y\ (\mathbf{j})$};
+  % plano vertical Zz
+  \fill[azul,opacity=0.10] (-1.6,0,0) -- (2.4,0,0) -- (2.4,0,4.3) -- (-1.6,0,4.3) -- cycle;
+  \draw[azul!70,line width=0.3pt] (-1.6,0,0) -- (-1.6,0,4.3) -- (2.4,0,4.3) -- (2.4,0,0);
+  \node[anchor=north west,font=\scriptsize,inner sep=2pt] at (-1.6,0,4.3) {plano $Zz$};
+  % eixos no plano Zz
+  \draw[eixo] (0,0,0) -- (0,0,4.85) node[above,text=black,inner sep=2pt] {$Z\ (\mathbf{K})$};
+  \draw[eixo] (0,0,0) -- ({5.0*\S},0,{5.0*\C}) node[right,text=black,inner sep=2pt] {$z\ (\mathbf{k})$};
+  % theta
+  \draw[line width=0.5pt] plot[domain=0:32,samples=16] ({1.0*sin(\x)},0,{1.0*cos(\x)});
+  \node[inner sep=1pt] at ({1.3*sin(#1)},0,{1.3*cos(#1)}) {$\theta$};
+  \fill (0,0,0) circle (1.5pt) node[below left,inner sep=2pt] {$O$};}%
+\begin{tikzpicture}[vista3d]
+  \cenavet{9}
+  \coordinate (A) at (0,0,2.15);
+  \coordinate (B) at ({2.3*\S},0,{2.3*\C});
+  \coordinate (W) at ({2.3*\S},0,{2.15+2.3*\C});
+  \draw[aux] (A) -- (W);
+  \draw[aux] (B) -- (W);
+  \draw[vetor,azul] (0,0,0) -- (A);
+  \draw[vetor,laranja] (0,0,0) -- (B);
+  \draw[resultante] (0,0,0) -- (W);
+  \node[left,inner sep=3pt] at (A) {$\dot{\phi}\,\mathbf{K}$};
+  \node[below right,inner sep=2pt] at (B) {$\dot{\psi}\,\mathbf{k}$};
+  \node[above left,inner sep=2pt] at (W) {$\boldsymbol{\omega}$};
+  \node[anchor=north] (cap) at (canvas cs:x=0.45cm,y=-1.25cm) {\small (a) Velocidade angular};
+\end{tikzpicture}\hfill
+\begin{tikzpicture}[vista3d]
+  \cenavet{21}
+  \coordinate (Hz) at ({2.9*\S},0,{2.9*\C});
+  \coordinate (Hx) at ({-1.2*\C},0,{1.2*\S});
+  \coordinate (H) at ({2.9*\S-1.2*\C},0,{2.9*\C+1.2*\S});
+  \draw[aux] (Hz) -- (H);
+  \draw[aux] (Hx) -- (H);
+  \draw[vetor,laranja] (0,0,0) -- (Hz);
+  \draw[vetor,azul] (0,0,0) -- (Hx);
+  \draw[resultante] (0,0,0) -- (H);
+  \node[below right,inner sep=2pt] at (Hz) {$I\omega_z\,\mathbf{k}$};
+  \node[left,inner sep=2pt] at (Hx) {$-I'\dot{\phi}\operatorname{sen}\theta\,\mathbf{i}$};
+  \node[above right,inner sep=2pt] at (H) {$\mathbf{H}_O$};
+  \node[anchor=north] (cap) at (canvas cs:x=0.45cm,y=-1.25cm) {\small (b) Quantidade de movimento angular};
+\end{tikzpicture}

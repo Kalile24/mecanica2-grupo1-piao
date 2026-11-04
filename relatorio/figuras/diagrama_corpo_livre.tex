@@ -1,0 +1,79 @@
+% Figura: referencial Oxyz (a) e diagrama de corpo livre (b).
+% theta = 32 graus (esquemático): \S = sen(theta), \C = cos(theta).
+\def\S{0.5299}
+\def\C{0.8480}
+\def\perfilpiao{%
+  plot[smooth,tension=0.6] coordinates {(-0.72,3.1) (-1.0,2.85) (-1.05,2.3) (-0.85,1.6)
+    (-0.5,0.85) (-0.18,0.25) (0,0) (0.18,0.25) (0.5,0.85) (0.85,1.6) (1.05,2.3) (1.0,2.85) (0.72,3.1)}}%
+\begin{tikzpicture}[scale=0.95,baseline=(cap.base),
+    x={(0.966cm,0.129cm)},y={(-0.259cm,0.483cm)},z={(0cm,0.866cm)},
+    eixo/.style={-{Stealth[length=2.2mm]},tinta2,line width=0.5pt},
+    taxa/.style={-{Stealth[length=2mm]},laranja,line width=1pt}]
+  % eixo x: abaixo do plano de apoio, portanto desenhado antes dele
+  \draw[eixo] (0,0,0) -- ({2.9*\C},0,{-2.9*\S}) node[right,text=black] {$x\ (\mathbf{i})$};
+  % plano de apoio translúcido
+  \fill[apoio,opacity=0.8] (-2,-2,0) -- (2,-2,0) -- (2,2,0) -- (-2,2,0) -- cycle;
+  \draw[tinta2,line width=0.3pt] (-2,-2,0) -- (2,-2,0) -- (2,2,0) -- (-2,2,0) -- cycle;
+  % corpo: silhueta alinhada à projeção do eixo z
+  \begin{scope}[x=1cm,y=1cm,rotate=-32.6,yscale=0.95]
+    \shade[left color=corpoesc,right color=corpoesc,middle color=corpo,draw=corpob,line width=0.5pt]
+      \perfilpiao -- cycle;
+    \draw[fill=corpo,draw=corpob,line width=0.5pt] (0,3.1) ellipse (0.72 and 0.22);
+  \end{scope}
+  % eixos
+  \draw[eixo] (0,0,0) -- (0,0,4.8) node[above left,text=black,inner sep=1pt] {$Z\ (\mathbf{K})$};
+  \draw[eixo] (0,0,0) -- ({4.9*\S},0,{4.9*\C}) node[right,text=black] {$z\ (\mathbf{k})$};
+  \draw[eixo] (0,0,0) -- (0,2.2,0) node[left,text=black,inner sep=1.5pt] {$y\ (\mathbf{j})$};
+  % theta, no plano Zz
+  \draw[line width=0.5pt] plot[domain=0:32,samples=20] ({1.5*sin(\x)},0,{1.5*cos(\x)});
+  \node[inner sep=1pt] at ({1.85*sin(16)},0,{1.85*cos(16)}) {$\theta$};
+  % trajetória de G, com o sentido do movimento
+  \draw[azul,densely dashed,line width=0.6pt] plot[domain=0:360,samples=90]
+    ({2.4*\S*cos(\x)},{2.4*\S*sin(\x)},{2.4*\C});
+  \draw[-{Stealth[length=2mm]},azul,line width=0.8pt] plot[domain=20:50,samples=12]
+    ({2.4*\S*cos(\x)},{2.4*\S*sin(\x)},{2.4*\C});
+  \fill ({2.4*\S},0,{2.4*\C}) circle (1.5pt) node[below right,inner sep=2pt] {$G$};
+  \fill (0,0,0) circle (1.5pt) node[below left,inner sep=2pt] {$O$};
+  % taxas no sentido positivo (anti-horário visto da ponta de cada eixo)
+  \draw[taxa] plot[domain=200:490,samples=50] ({0.42*cos(\x)},{0.42*sin(\x)},4.15);
+  \node[left=6pt] at (0,0,4.15) {$\dot{\phi}$};
+  \draw[taxa] plot[domain=200:490,samples=50]
+    ({4.25*\S+0.42*cos(\x)*\C},{0.42*sin(\x)},{4.25*\C-0.42*cos(\x)*\S});
+  \node[right=7pt] at ({4.25*\S},0,{4.25*\C}) {$\dot{\psi}$};
+  \node[anchor=north] (cap) at (canvas cs:x=0.35cm,y=-1.45cm) {\small (a) Referencial e movimento};
+\end{tikzpicture}\hfill
+\begin{tikzpicture}[scale=0.95,baseline=(cap.base),
+    eixo/.style={-{Stealth[length=2.2mm]},tinta2,line width=0.5pt},
+    forca/.style={-{Stealth[length=2.6mm]},line width=1.3pt}]
+  % corpo em vista lateral
+  \begin{scope}[rotate=-32]
+    \shade[left color=corpoesc,right color=corpoesc,middle color=corpo,draw=corpob,line width=0.5pt]
+      \perfilpiao -- cycle;
+    \draw[corpob,line width=0.5pt] (-0.72,3.1) -- (0.72,3.1);
+  \end{scope}
+  % eixos
+  \draw[eixo] (0,0) -- (0,4.7) node[above,text=black] {$Z$};
+  \draw[eixo] (0,0) -- ({4.9*\S},{4.9*\C}) node[right,text=black] {$z$};
+  \draw[eixo] (0,0) -- ({2.1*\C},{-2.1*\S}) node[right,text=black] {$x$};
+  % theta
+  \draw[line width=0.5pt] (0,1.65) arc[start angle=90,end angle=58,radius=1.65];
+  \node[inner sep=1pt] at (0.51,1.92) {$\theta$};
+  % cota c, paralela ao eixo z
+  \coordinate (A) at ({-1.55*\C},{1.55*\S});
+  \coordinate (B) at ({-1.55*\C+2.4*\S},{1.55*\S+2.4*\C});
+  \draw[tinta2,densely dotted,line width=0.4pt] (0,0) -- (A);
+  \draw[tinta2,densely dotted,line width=0.4pt] ({2.4*\S},{2.4*\C}) -- (B);
+  \draw[{Stealth[length=1.8mm]}-{Stealth[length=1.8mm]},line width=0.4pt] (A) -- (B)
+    node[midway,above left,inner sep=1pt] {$c$};
+  % forças
+  \draw[forca,laranja] ({2.4*\S},{2.4*\C}) -- ++(0,-1.6) node[right,text=black,inner sep=2pt] {$\mathbf{W}$};
+  \draw[forca,azul] (0,0) -- (0,1.05) node[left,text=black,inner sep=2pt] {$\mathbf{N}$};
+  \draw[forca,azul] (0,0) -- (-1.05,0) node[below,text=black,inner sep=2pt] {$\mathbf{R}_h$};
+  \fill ({2.4*\S},{2.4*\C}) circle (1.5pt) node[above right,inner sep=2pt] {$G$};
+  % O com o eixo y entrando no plano (símbolo: círculo com X)
+  \draw[fill=white,line width=0.5pt] (0,0) circle (2.6pt);
+  \draw[line width=0.5pt] (-1.84pt,-1.84pt) -- (1.84pt,1.84pt) (-1.84pt,1.84pt) -- (1.84pt,-1.84pt);
+  \node[below,inner sep=4pt] at (0,0) {$O$};
+  \node[anchor=north,align=center,font=\footnotesize] at (-0.35,-0.62) {$y$ entra no plano};
+  \node[anchor=north] (cap) at (0.45,-1.45) {\small (b) Diagrama de corpo livre};
+\end{tikzpicture}
