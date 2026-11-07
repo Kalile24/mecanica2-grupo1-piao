@@ -479,42 +479,6 @@ E = \frac{1}{2}I'\phid^{\,2}\seno^2\theta + \frac{1}{2}I\omega_z^2 + Wc\cos\thet
 \label{eq:energia}
 \end{equation}
 
-\subsection{Aprofundamento: estabilidade e nutação}
-
-Para examinar o que ocorre quando o movimento é perturbado, considera-se o caso geral com $\theta$ variável, por meio da formulação lagrangiana \cite{goldstein}. A função lagrangiana do pião é a da equação~\ref{eq:lagr}.
-\begin{equation}
-L = \frac{1}{2}I'\left(\dot{\theta}^2+\phid^{\,2}\seno^2\theta\right) + \frac{1}{2}I\left(\psid+\phid\cos\theta\right)^2 - Wc\cos\theta
-\label{eq:lagr}
-\end{equation}
-
-Como $\phi$ e $\psi$ não aparecem explicitamente na equação~\ref{eq:lagr}, as quantidades da equação~\ref{eq:conserv} são conservadas: fisicamente, as componentes de $\vet{H}_O$ segundo o eixo de simetria e segundo a vertical.
-\begin{equation}
-p_\psi = I\omega_z,
-\qquad
-p_\phi = I'\phid\seno^2\theta + p_\psi\cos\theta
-\label{eq:conserv}
-\end{equation}
-
-A equação de Euler--Lagrange para $\theta$ resulta na equação~\ref{eq:nutacao}. Impondo $\ddot{\theta}=0$, recupera-se a equação~\ref{eq:condicao}, o que confirma por outra via a dedução vetorial.
-\begin{equation}
-I'\ddot{\theta} = \seno\theta\left[\phid\left(I'\phid\cos\theta-p_\psi\right)+Wc\right]
-\label{eq:nutacao}
-\end{equation}
-
-Linearizando a equação~\ref{eq:nutacao} em torno de uma precessão permanente, com $p_\psi$ e $p_\phi$ fixos, obtém-se um oscilador harmônico de frequência dada pela equação~\ref{eq:omegan}.
-\begin{equation}
-\omega_n = \frac{1}{I'}\sqrt{\left(p_\psi-2I'\phid\cos\theta\right)^2+\left(I'\phid\seno\theta\right)^2}
-\label{eq:omegan}
-\end{equation}
-
-Como o radicando da equação~\ref{eq:omegan} é sempre positivo, as duas precessões são estáveis: uma pequena perturbação produz apenas uma oscilação de $\theta$, denominada nutação, de período $T_n=2\pi/\omega_n$, e o pião não tomba. Uma análise análoga em torno de $\theta=0$ conduz à condição clássica para que o pião permaneça estável na vertical \cite{goldstein}, dada pela equação~\ref{eq:dormindo}.
-\begin{equation}
-\omega_z > \omega_{z,\mathrm{min}} = \frac{2}{I}\sqrt{I'Wc} = 100,2\un{rad/s} = 957\un{rpm}
-\label{eq:dormindo}
-\end{equation}
-
-Segundo a equação~\ref{eq:dormindo}, a $1800\un{rpm}$ o pião poderia manter-se de pé sobre a vertical. Com o atrito real, o \textit{spin} decai e, ao atingir aproximadamente esse limite, o pião começa a oscilar visivelmente, comportamento familiar a quem já observou um pião em movimento.
-
 \subsection{Validação numérica}
 
 Para verificar os resultados por um caminho independente, as equações do movimento foram integradas numericamente sem o uso da equação~\ref{eq:quad} nem dos ângulos de Euler. Empregou-se a equação de Euler do corpo rígido em eixos solidários ao pião (equação~\ref{eq:eulercorpo}), em conjunto com a cinemática de quatérnios (equação~\ref{eq:quat}), em que $\otimes$ denota o produto de quatérnios.
