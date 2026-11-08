@@ -264,27 +264,17 @@ def fig_spin(fs=(6.6, 2.8), suf=""):
     f.savefig(FIG / f"efeito_spin{suf}.pdf")
 
 
-def fig_simulacao(fs=(6.6, 2.8), suf=""):
+def fig_simulacao(fs=(3.6, 2.8), suf=""):
     th = np.deg2rad(30)
     l, r = raizes(th)
-    t, tl, _, _ = simula(th, l, psi_d, T=1.0)
-    t2, tq, pq, _ = simula(th, 0.0, psi_d, T=1.0)
-    f, ax = plt.subplots(1, 2, figsize=fs)
-    ax[0].plot(t2, np.rad2deg(tq), color=LARANJA, ls="--", lw=1.4, label=r"solto com $\dot{\phi}_0$ = 0")
-    ax[0].plot(t, np.rad2deg(tl), color=AZUL, label=r"$\dot{\phi}_0=\dot{\phi}_1$")
-    ax[0].set_ylim(29.5, 37 if fs[0] > 6 else 38.5)
-    ax[0].set_ylabel(r"$\theta$ (°)")
-    ax[0].legend(loc="upper right", fontsize=9, ncol=2 if fs[0] > 6 else 1, columnspacing=1)
-    ax[0].set_title("(a) Ângulo de nutação", fontsize=10, loc="left")
-    _, _, pl, _ = simula(th, l, psi_d, T=1.0)
-    ax[1].plot(t2, pq, color=LARANJA, ls="--", lw=1.4, label=r"solto com $\dot{\phi}_0$ = 0")
-    ax[1].plot(t, pl, color=AZUL, label=r"$\dot{\phi}_0=\dot{\phi}_1$")
-    ax[1].set_ylabel(r"$\phi$ (rad)")
-    ax[1].legend(loc="upper left", fontsize=9)
-    ax[1].set_title("(b) Ângulo de precessão", fontsize=10, loc="left")
-    for a in ax:
-        a.set_xlabel(r"$t$ (s)")
-    virgula(f, xdec={0: 1, 1: 1})
+    t, _, pl, _ = simula(th, l, psi_d, T=1.0)
+    f, ax = plt.subplots(1, 1, figsize=fs)
+    ax.plot(t, pl, color=AZUL, label=r"$\dot{\phi}_1$")
+    ax.set_ylabel(r"$\phi$ (rad)")
+    ax.set_xlabel(r"$t$ (s)")
+    ax.legend(loc="upper left", fontsize=9)
+    ax.set_title("Ângulo de precessão", fontsize=10, loc="left")
+    virgula(f, xdec={0: 1})
     f.tight_layout()
     f.savefig(FIG / f"simulacao{suf}.pdf")
 
