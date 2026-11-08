@@ -134,7 +134,6 @@ $p_\phi,\,p_\psi$ & quantidades de movimento generalizadas conservadas & kg$\cdo
 $\vet{q}$ & quatérnio unitário de orientação do pião & --\\
 $\vet{R}_h$ & componente horizontal da reação em $O$ & N\\
 $\vet{r}_G$ & vetor posição de $G$ em relação a $O$ & m\\
-$T_n$ & período da nutação de pequena amplitude & s\\
 $t$ & tempo & s\\
 $\vet{W}$ & peso do pião & N\\
 $\eps$ & parâmetro adimensional $aWc/b^2$ & --\\
@@ -148,7 +147,6 @@ $\psid_{\mathrm{min}}$ & menor \textit{spin} que admite precessão permanente & 
 $\vomega$ & velocidade angular do pião & rad/s\\
 $\omega_z$ & componente de $\vomega$ segundo o eixo de simetria & rad/s\\
 $\omega_{z,\mathrm{min}}$ & menor valor de $\omega_z$ que estabiliza o pião na vertical & rad/s\\
-$\omega_n$ & frequência angular da nutação de pequena amplitude & rad/s\\
 $\vOmega$ & velocidade angular do referencial $Oxyz$ & rad/s\\
 \bottomrule
 \end{tabular}
@@ -164,7 +162,7 @@ Um pião em repouso, apoiado sobre a própria ponta, tomba imediatamente. Basta,
 
 O brinquedo esconde um princípio de grande alcance tecnológico. O mesmo fenômeno governa os giroscópios e as girobússolas empregados em sistemas de navegação inercial, a estabilização de projéteis por rotação e a orientação de satélites. Em escala astronômica, o eixo de rotação da Terra precessa de modo análogo sob a ação gravitacional do Sol e da Lua. Compreender o pião significa, portanto, compreender a base física desses sistemas.
 
-Este trabalho analisa a precessão permanente de um pião de massa e geometria conhecidas, conforme proposto ao Grupo I. Determinam-se as taxas de precessão possíveis para inclinações entre $30^\circ$ e $60^\circ$, deduz-se a condição simplificada válida para rotação muito rápida e quantifica-se o erro cometido ao utilizá-la. Como aprofundamento, investigam-se a existência e a estabilidade das soluções, as reações no apoio e a razão pela qual apenas uma das duas soluções é observada na prática. Os resultados são verificados por uma integração numérica independente das equações do movimento.
+Este trabalho analisa a precessão permanente de um pião de massa e geometria conhecidas, conforme proposto ao Grupo I. Determinam-se as taxas de precessão possíveis para inclinações entre $30^\circ$ e $60^\circ$, deduz-se a condição simplificada válida para rotação muito rápida e quantifica-se o erro cometido ao utilizá-la. Como aprofundamento, investigam-se a existência das soluções, as reações no apoio e a razão pela qual apenas uma das duas soluções é observada na prática. Os resultados são verificados por uma integração numérica independente das equações do movimento.
 
 % ------------------------------------------------------------- 2
 \section{Desenvolvimento}
@@ -334,12 +332,6 @@ Com esse valor, a equação~\ref{eq:raizes} conduz às taxas da equação~\ref{e
 \label{eq:num30}
 \end{equation}
 
-Como verificação, o produto das raízes deve ser igual a $Wc/a$, conforme a equação~\ref{eq:vieta}, o que se confirma numericamente.
-\begin{equation}
-\phid_1\,\phid_2 = \frac{Wc}{a} = 241,7\un{rad^2/s^2}
-\label{eq:vieta}
-\end{equation}
-
 Repetindo o cálculo em toda a faixa pedida, obtém-se a Tabela~\ref{tab:raizes}.
 
 \begin{table}[H]
@@ -386,7 +378,14 @@ Quando $\psid\gg\phid$, a equação~\ref{eq:compomega} fornece $\omega_z\approx\
 \label{eq:aprox}
 \end{equation}
 
-A equação~\ref{eq:aprox} é a resposta do item (b). Fisicamente, ela equivale a admitir $\vet{H}_O\approx I\psid\,\vet{k}$ na equação~\ref{eq:eulerM}: o momento do peso gira o vetor $\vet{H}_O$ à taxa $\phid$, de onde $Wc\seno\theta=\phid\,I\psid\seno\theta$. O fator $\seno\theta$ cancela-se e, por isso, a taxa aproximada independe da inclinação. Observa-se também que $\phid_a$ é inversamente proporcional ao \textit{spin}: quanto mais rápido gira o pião, mais lentamente precessa. Para os dados do problema, a equação~\ref{eq:aprox} fornece o valor da equação~\ref{eq:aproxnum}.
+A equação~\ref{eq:aprox} é a resposta do item (b). Fisicamente, ela equivale a admitir $\vet{H}_O\approx I\psid\,\vet{k}$ na equação~\ref{eq:eulerM}: o momento do peso gira o vetor $\vet{H}_O$ à taxa $\phid$, o que nos leva à equação~\ref{eq:OmegaH_approx}:
+
+\begin{equation}
+Wc\seno\theta=\sum\vet{M}_O = \vOmega\times\vet{H}_O \approx \phid\,I\psid\seno\theta
+\label{eq:OmegaH_approx}
+\end{equation}
+
+O fator $\seno\theta$ cancela-se e, por isso, a taxa aproximada independe da inclinação. Observa-se também que $\phid_a$ é inversamente proporcional ao \textit{spin}: quanto mais rápido gira o pião, mais lentamente precessa. Para os dados do problema, a equação~\ref{eq:aprox} fornece o valor da equação~\ref{eq:aproxnum}.
 \begin{equation}
 \phid_a = \frac{0,03924}{0,011781} = 3,331\un{rad/s} = 31,8\un{rpm}
 \label{eq:aproxnum}
@@ -408,21 +407,44 @@ e = \frac{3,331-3,500}{3,500}\times100\% = -4,82\%
 \label{eq:erro30}
 \end{equation}
 
-Pode-se obter uma expressão exata para o erro. Reescrevendo a equação~\ref{eq:quad} para a raiz lenta e dividindo por $b\,\phid_1$, chega-se à equação~\ref{eq:errofis}, que revela a origem do erro: ele é precisamente a parcela desprezada na dedução da equação~\ref{eq:aprox}.
+Pode-se obter uma expressão exata para o erro. Como $\phid_1$ é raiz da equação~\ref{eq:quad}, ela a satisfaz; isolando o termo linear em $\phid$, tem-se
 \begin{equation}
-\frac{e}{100\%} = -\frac{(I'-I)\cos\theta\;\phid_1}{I\psid}
+b\,\phid_1 = Wc + a\,\phid_1^{\,2}.
+\label{eq:erroinic}
+\end{equation}
+Dividindo ambos os membros por $b\,\phid_1$, resulta
+\begin{equation*}
+1 = \frac{Wc}{b\,\phid_1} + \frac{a\,\phid_1}{b}.
+\end{equation*}
+Pela equação~\ref{eq:aprox}, $\phid_a = Wc/b$, de modo que o primeiro termo do segundo membro é a razão $\phid_a/\phid_1$. Como, pela equação~\ref{eq:erro}, $e/100\% = \phid_a/\phid_1 - 1$, obtém-se a equação~\ref{eq:errofis}, que revela a origem do erro: ele é precisamente a parcela $a\,\phid_1^{\,2}$ desprezada na dedução da equação~\ref{eq:aprox}, na qual a equação~\ref{eq:quad} foi reduzida a $-b\,\phid + Wc = 0$.
+\begin{equation}
+\frac{e}{100\%} = -\frac{a\,\phid_1}{b} = -\frac{(I'-I)\cos\theta\;\phid_1}{I\psid}
 \label{eq:errofis}
 \end{equation}
 
-Introduzindo o parâmetro adimensional $\eps=aWc/b^2$ na equação~\ref{eq:raizes}, o erro passa a ser dado em forma fechada pela equação~\ref{eq:errofechado}.
+A equação~\ref{eq:errofis} ainda depende de $\phid_1$. Para eliminá-lo, substitui-se a raiz lenta da equação~\ref{eq:raizes}:
+\begin{equation*}
+\frac{a\,\phid_1}{b}
+= \frac{b-\sqrt{b^2-4aWc}}{2b}
+= \frac{1-\sqrt{1-4aWc/b^2}}{2}.
+\end{equation*}
+Nessa forma, a razão $aWc/b^2$ aparece naturalmente. Definindo-a como o parâmetro adimensional $\eps=aWc/b^2$ e substituindo $a$ e $b$, o erro passa a ser dado em forma fechada pela equação~\ref{eq:errofechado}.
 \begin{equation}
 \frac{e}{100\%} = \frac{\sqrt{1-4\eps}-1}{2} \approx -\eps,
 \qquad
 \eps = \frac{(I'-I)\cos\theta\;Wc}{\left(I\psid\right)^2}
 \label{eq:errofechado}
 \end{equation}
+A aproximação indicada na equação~\ref{eq:errofechado} decorre da expansão em série da raiz para $\eps \ll 1$,
+\begin{equation}
+\sqrt{1-4\eps} \approx 1 - 2\eps - 2\eps^2 - \cdots
+\quad\Rightarrow\quad
+\frac{e}{100\%} \approx -\eps - \eps^2 - \cdots,
+\label{eq:erroserie}
+\end{equation}
+em que o termo de primeira ordem domina. Para $\theta = 30^\circ$, por exemplo, $\eps = 0,0459$ fornece $-4,82\%$ pela expressão exata e $-4,59\%$ apenas com $-\eps$.
 
-A equação~\ref{eq:errofechado} mostra que o erro decresce com $\cos\theta$ e, para $\eps$ pequeno, é proporcional a $1/\psid^{\,2}$. A Tabela~\ref{tab:erro} resume os valores obtidos.
+A equação~\ref{eq:errofechado} mostra que o erro decresce com $\cos\theta$ e, para $\eps$ pequeno, é proporcional a $1/\psid^{\,2}$: dobrar o \textit{spin} reduz o erro a cerca de um quarto. A Tabela~\ref{tab:erro} resume os valores obtidos.
 
 \begin{table}[H]
 \centering
@@ -504,36 +526,36 @@ As respostas aos itens propostos são as seguintes.
 \item \textbf{Item (c):} a aproximação subestima a menor taxa de precessão, com erro de $4,82\%$ em $\theta=30^\circ$ e de $2,72\%$ em $\theta=60^\circ$ (Tabela~\ref{tab:erro}).
 \end{itemize}
 
-A Tabela~\ref{tab:fisica} compara as duas soluções com base nas equações~\ref{eq:compomega}, \ref{eq:reacoes}, \ref{eq:energia} e~\ref{eq:omegan}. Embora ambas sejam matematicamente válidas e estáveis, elas diferem muito do ponto de vista físico.
+A Tabela~\ref{tab:fisica} compara as duas soluções com base nas equações~\ref{eq:compomega}, \ref{eq:reacoes} e~\ref{eq:energia}. Embora ambas sejam matematicamente válidas, elas diferem muito do ponto de vista físico.
 
 \begin{table}[H]
 \centering
 \caption{Comparação física entre as precessões lenta e rápida.}
 \label{tab:fisica}
-\begin{tabular}{ccccccc}
+\begin{tabular}{cccccc}
 \toprule
-$\theta$ & Solução & $\phid/\psid$ & $\omega_z$ (rad/s) & $E$ (J) & $R_h/W$ & $T_n$ (s)\\
+$\theta$ & Solução & $\phid/\psid$ & $\omega_z$ (rad/s) & $E$ (J) & $R_h/W$\\
 \midrule
-$30^\circ$ & lenta & $0,019$ & $191,5$ & $1,181$ & $0,025$ & $0,150$\\
-           & rápida & $0,366$ & $248,3$ & $2,110$ & $9,72$ & $0,094$\\
-$45^\circ$ & lenta & $0,018$ & $191,0$ & $1,168$ & $0,035$ & $0,146$\\
-           & rápida & $0,453$ & $248,9$ & $2,419$ & $21,0$ & $0,075$\\
-$60^\circ$ & lenta & $0,018$ & $190,2$ & $1,151$ & $0,041$ & $0,142$\\
-           & rápida & $0,649$ & $249,6$ & $3,368$ & $52,8$ & $0,052$\\
+$30^\circ$ & lenta & $0,019$ & $191,5$ & $1,181$ & $0,025$\\
+           & rápida & $0,366$ & $248,3$ & $2,110$ & $9,72$\\
+$45^\circ$ & lenta & $0,018$ & $191,0$ & $1,168$ & $0,035$\\
+           & rápida & $0,453$ & $248,9$ & $2,419$ & $21,0$\\
+$60^\circ$ & lenta & $0,018$ & $190,2$ & $1,151$ & $0,041$\\
+           & rápida & $0,649$ & $249,6$ & $3,368$ & $52,8$\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Destaca-se a razão $R_h/W$. Na precessão lenta, a força horizontal no apoio é pequena, de até $4,1\%$ do peso: um coeficiente de atrito modesto já a sustentaria. Na precessão rápida, a força exigida atinge de $9,7$ a $53$ vezes o peso, algo que um pião simplesmente apoiado sobre um plano não poderia receber sem que a ponta deslizasse. Essa solução só é viável com o ponto $O$ efetivamente fixo, como admite o enunciado. Além disso, ela requer uma energia de $1,8$ a $2,9$ vezes maior. Fica assim explicado por que, na prática, observa-se apenas a precessão lenta.
 
-A validação numérica confirmou os resultados analíticos. Iniciando a integração nas condições de cada raiz, para $\theta=30^\circ$, $45^\circ$ e $60^\circ$, a taxa de precessão calculada coincidiu com a da equação~\ref{eq:raizes} com desvio inferior a $10^{-8}\%$, o ângulo $\theta$ permaneceu constante com variação inferior a $10^{-8}$ graus e a energia foi conservada com variação relativa inferior a $10^{-11}$. Uma perturbação de $0,1^\circ$ em $\theta=30^\circ$ produziu nutação de período $0,1501\un{s}$ na solução lenta e $0,0936\un{s}$ na rápida, valores idênticos aos previstos pela equação~\ref{eq:omegan}, até a quarta casa decimal.
+A validação numérica confirmou os resultados analíticos. Iniciando a integração nas condições de cada raiz, para $\theta=30^\circ$, $45^\circ$ e $60^\circ$, a taxa de precessão calculada coincidiu com a da equação~\ref{eq:raizes} com desvio inferior a $10^{-8}\%$, o ângulo $\theta$ permaneceu constante com variação inferior a $10^{-8}$ graus e a energia foi conservada com variação relativa inferior a $10^{-11}$.
 
-A Figura~\ref{fig:simulacao} mostra duas simulações para $\theta_0=30^\circ$. A curva contínua corresponde ao pião lançado exatamente com $\phid_1$: o ângulo $\theta$ permanece constante e $\phi$ cresce linearmente, o que caracteriza a precessão permanente. A curva tracejada corresponde a um pião solto com o eixo inicialmente sem precessão ($\phid_0=0$), situação mais próxima de um lançamento real. Nesse caso, o pião desce levemente, com $\theta$ oscilando entre $30^\circ$ e $34,95^\circ$, e o eixo avança em pequenos ciclos de nutação, com taxa média de $3,55\un{rad/s}$, valor próximo de $\phid_1$. O pião não tomba: a queda inicial é convertida em movimento lateral.
+A Figura~\ref{fig:simulacao} mostra a simulação para $\theta_0=30^\circ$ e $\psid=1800\un{rpm}$, com o pião lançado exatamente com a taxa de precessão $\phid_1$. O ângulo $\theta$ permanece constante e $\phi$ cresce linearmente com o tempo, com inclinação igual a $\phid_1$, o que caracteriza a precessão permanente: o eixo do pião descreve um cone em torno da vertical, sem tombar.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{simulacao.pdf}
-\caption[Simulação numérica da precessão e da nutação]{Simulação numérica para $\theta_0=30^\circ$ e $\psid=1800\un{rpm}$, com precessão inicial igual à raiz lenta (curva contínua) e nula (curva tracejada): (a) ângulo de nutação; (b) ângulo de precessão.}
+\includegraphics[width=0.6\linewidth]{simulacao.pdf}
+\caption[Simulação numérica da precessão]{Simulação numérica do ângulo de precessão $\phi$ para $\theta_0=30^\circ$ e $\psid=1800\un{rpm}$, com taxa de precessão inicial igual à raiz lenta $\phid_1$.}
 \label{fig:simulacao}
 \end{figure}
 
@@ -544,7 +566,7 @@ O trabalho aplicou a dinâmica tridimensional do corpo rígido à precessão per
 
 Para $\psid=1800\un{rpm}$, a taxa lenta permanece próxima de $3,5\un{rad/s}$ em toda a faixa, enquanto a rápida varia de $69$ a $122\un{rad/s}$. A condição simplificada $\phid_a\approx Wc/(I\psid)$ apresentou erro entre $2,72\%$ e $4,82\%$ em relação à raiz lenta, sempre por falta. Tal erro é aceitável para estimativas de engenharia e diminui rapidamente com o aumento do \textit{spin}, aproximadamente com o inverso de seu quadrado.
 
-O aprofundamento mostrou que as duas soluções existem somente acima de um \textit{spin} mínimo e que ambas são estáveis em relação a pequenas perturbações. Mostrou também por que somente a precessão lenta é observada em um pião comum: a rápida exigiria forças horizontais muito superiores ao peso e uma energia consideravelmente maior. A integração numérica independente reproduziu as taxas de precessão e os períodos de nutação previstos, o que confere confiança à solução. Ela também evidenciou que, em um lançamento real, a precessão é acompanhada de nutação, e que é a transformação do início da queda em movimento lateral que impede o pião de tombar.
+O aprofundamento mostrou que as duas soluções existem somente acima de um \textit{spin} mínimo. Mostrou também por que somente a precessão lenta é observada em um pião comum: a rápida exigiria forças horizontais muito superiores ao peso e uma energia consideravelmente maior. A integração numérica independente reproduziu as taxas de precessão previstas, com $\theta$ constante e energia conservada, o que confere confiança à solução.
 
 O modelo tem limitações que convém registrar: o atrito é desprezado, de modo que o decaimento do \textit{spin} não é representado, e o ponto de apoio é considerado perfeitamente fixo. Em um pião real, a ponta tem dimensão finita e pode deslizar. Esses efeitos constituem extensões naturais do estudo.
 
