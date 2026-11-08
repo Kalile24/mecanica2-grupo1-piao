@@ -14,7 +14,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.ticker import FuncFormatter
+from matplotlib.ticker import FuncFormatter, LogFormatterMathtext
 
 FIG = Path(__file__).resolve().parent.parent / "figuras"
 FIG.mkdir(exist_ok=True)
@@ -52,11 +52,6 @@ def erro_pct(theta, psid=psi_d):
 
 def psi_min(theta):
     return 2 / I * np.sqrt((Ip - I) * np.cos(theta) * Wc)
-
-
-def omega_nut(theta, phid, psid=psi_d):
-    p = I * (psid + phid * np.cos(theta))
-    return np.hypot(p - 2 * Ip * phid * np.cos(theta), Ip * phid * np.sin(theta)) / Ip
 
 
 # ---------------------------------------------------------------- simulação
@@ -279,6 +274,39 @@ def fig_simulacao(fs=(3.6, 2.8), suf=""):
     f.savefig(FIG / f"simulacao{suf}.pdf")
 
 
+def fig_apendice():
+    """Grandezas da simulação para as duas raízes, em theta = 30 graus."""
+    th = np.deg2rad(30)
+    lenta, rapida = raizes(th)
+    t, th1, ph1, E1 = simula(th, lenta, psi_d, T=1.0)
+    _, th2, ph2, E2 = simula(th, rapida, psi_d, T=1.0)
+    f, ax = plt.subplots(2, 2, figsize=(6.6, 4.8))
+    ax[0, 0].plot(t, ph1, color=AZUL)
+    ax[0, 0].set_ylabel(r"$\phi$ (rad)")
+    ax[0, 0].set_title(r"(a) Raiz lenta $\dot{\phi}_1$", fontsize=10, loc="left")
+    ax[0, 1].plot(t, ph2, color=LARANJA, ls="--")
+    ax[0, 1].set_ylabel(r"$\phi$ (rad)")
+    ax[0, 1].set_title(r"(b) Raiz rápida $\dot{\phi}_2$", fontsize=10, loc="left")
+    ax[1, 0].plot(t, np.rad2deg(th1), color=AZUL, label="lenta")
+    ax[1, 0].plot(t, np.rad2deg(th2), color=LARANJA, ls="--", label="rápida")
+    ax[1, 0].set_ylim(29, 31)
+    ax[1, 0].set_ylabel(r"$\theta$ (°)")
+    ax[1, 0].legend(loc="upper right", fontsize=9)
+    ax[1, 0].set_title("(c) Ângulo de inclinação", fontsize=10, loc="left")
+    piso = 1e-17  # evita log(0) nos instantes em que a variação é exatamente nula
+    ax[1, 1].semilogy(t, np.abs(E1 - E1[0]) / abs(E1[0]) + piso, color=AZUL, lw=1, label="lenta")
+    ax[1, 1].semilogy(t, np.abs(E2 - E2[0]) / abs(E2[0]) + piso, color=LARANJA, lw=1, label="rápida")
+    ax[1, 1].set_ylabel(r"$|E-E_0|/E_0$")
+    ax[1, 1].legend(loc="lower right", fontsize=9)
+    ax[1, 1].set_title("(d) Variação relativa da energia", fontsize=10, loc="left")
+    virgula(f, xdec={0: 1, 1: 1, 2: 1, 3: 1})
+    ax[1, 1].yaxis.set_major_formatter(LogFormatterMathtext())
+    for a in ax[1]:
+        a.set_xlabel(r"$t$ (s)")
+    f.tight_layout()
+    f.savefig(FIG / "simulacao_apendice.pdf")
+
+
 # ---------------------------------------------------------------- relatório
 def relatorio_numerico():
     print(f"I={I:.4e}  I'={Ip:.4e}  W={W:.5f}  Wc={Wc:.5f}  psi_d={psi_d:.4f} rad/s")
@@ -291,10 +319,8 @@ def relatorio_numerico():
         print(f"{td:3d} {a:.5e} {l:8.4f} {l/RPM:8.3f} {r:9.3f} {r/RPM:9.2f} "
               f"{a*Wc/(I*psi_d)**2:.5f} {erro_pct(t):7.3f} {psi_min(t)/RPM:7.1f}")
     print(f"psi_min(30)={psi_min(np.deg2rad(30)):.3f} rad/s")
-    wsleep = 2 / I * np.sqrt(Ip * Wc)
-    print(f"sleeping: {wsleep:.2f} rad/s = {wsleep/RPM:.1f} rpm")
 
-    print("\ntheta ramo  wz     H_z     Hx      T     E      Rh    Rh/W  wn    Tn   phi/psi")
+    print("\ntheta ramo  wz     H_z     Hx      T     E      Rh    Rh/W  phi/psi")
     for td in (30, 45, 60):
         t = np.deg2rad(td)
         for nome, p in zip(("lenta", "rapida"), raizes(t)):
@@ -302,9 +328,8 @@ def relatorio_numerico():
             T = 0.5 * I * wz**2 + 0.5 * Ip * (p * np.sin(t))**2
             E = T + Wc * np.cos(t)
             Rh = m * c * np.sin(t) * p**2
-            wn = omega_nut(t, p)
             print(f"{td} {nome:6s} {wz:7.2f} {I*wz:.5f} {Ip*p*np.sin(t):.5f} {T:6.3f} {E:6.3f} "
-                  f"{Rh:7.3f} {Rh/W:6.3f} {wn:6.2f} {2*np.pi/wn:.4f} {p/psi_d:.4f}")
+                  f"{Rh:7.3f} {Rh/W:6.3f} {p/psi_d:.4f}")
 
     print("\nValidação numérica (Euler + quatérnios, RK4, dt=2e-5 s, T=1 s)")
     for td in (30, 45, 60):
@@ -316,21 +341,6 @@ def relatorio_numerico():
                   f"desv={abs(slope-p)/p*100:.2e}% max|dtheta|={np.rad2deg(np.abs(th-t).max()):.2e} graus "
                   f"dE/E={np.abs(E-E[0]).max()/abs(E[0]):.1e}")
 
-    print("\nNutação: perturbação pequena (0,1 grau) e período medido")
-    for nome, idx in (("lenta", 0), ("rapida", 1)):
-        t = np.deg2rad(30)
-        p = raizes(t)[idx]
-        tt, th, _, _ = simula(t + np.deg2rad(0.1), p, psi_d - 0 * p, T=1.0)
-        x = th - th.mean()
-        cr = tt[1:][(x[:-1] < 0) & (x[1:] >= 0)]
-        Tm = np.mean(np.diff(cr))
-        print(f"{nome}: T_formula={2*np.pi/omega_nut(t,p):.4f} s  T_sim={Tm:.4f} s")
-
-    t = np.deg2rad(30)
-    tt, th, ph, _ = simula(t, 0.0, psi_d, T=1.0)
-    print(f"Solto: theta_max={np.rad2deg(th.max()):.2f} graus, theta_min={np.rad2deg(th.min()):.2f}, "
-          f"precessao media={np.polyfit(tt, ph, 1)[0]:.3f} rad/s")
-
 
 if __name__ == "__main__":
     relatorio_numerico()
@@ -339,6 +349,7 @@ if __name__ == "__main__":
     fig_erro()
     fig_spin()
     fig_simulacao()
+    fig_apendice()
     fig_taxas((5.0, 2.9), "_slide")
     fig_erro((5.0, 2.9), "_slide")
     fig_spin((5.2, 2.5), "_slide")

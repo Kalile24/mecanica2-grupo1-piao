@@ -206,30 +206,56 @@
       \end{block}
     \end{column}
   \end{columns}
-  \note{[4:30 -- 6:00] Este é o slide mais importante. A derivada de H tem duas partes: a variação medida em Oxyz, nula, e a causada pela rotação do referencial. Logo, o momento externo só faz o vetor H girar em torno da vertical, sem mudar de intensidade. O momento do peso é horizontal e perpendicular ao plano Zz, e essa é a resposta à pergunta inicial. A dedução do produto vetorial está no slide de apoio.}
+  \note{[4:30 -- 6:00] Este é o slide mais importante. A derivada de H tem duas partes: a variação medida em Oxyz, nula, e a causada pela rotação do referencial. Logo, o momento externo só faz o vetor H girar em torno da vertical, sem mudar de intensidade. O momento do peso é horizontal e perpendicular ao plano Zz, e essa é a resposta à pergunta inicial. O produto vetorial é aberto no próximo slide.}
 \end{frame}
 
 % ---------------------------------------------------------------- 7
-\begin{frame}{Equação da precessão permanente}
-  Igualando os dois lados e dividindo por $\seno\theta\neq0$:
+\begin{frame}{Os dois lados, passo a passo}
+  \small
+  \textbf{Lado da quantidade de movimento}, com $\vOmega=-\phid\seno\theta\,\vet{i}+\phid\cos\theta\,\vet{k}$:
   \[
-    \phid\left(I\omega_z-I'\phid\cos\theta\right)=Wc
+    \vOmega\times\vet{H}_O=
+    \begin{vmatrix}
+      \vet{i}&\vet{j}&\vet{k}\\
+      -\phid\seno\theta&0&\phid\cos\theta\\
+      -I'\phid\seno\theta&0&I\omega_z
+    \end{vmatrix}
+    =\left(I\omega_z-I'\phid\cos\theta\right)\phid\seno\theta\,\vet{j}
   \]
-  Com $\omega_z=\psid+\phid\cos\theta$, resulta uma equação de segundo grau em $\phid$:
-  \begin{block}{Equação geral}
+  A coluna central nula elimina as componentes $\vet{i}$ e $\vet{k}$: só resta $\vet{j}$.\\[0.25cm]
+  \textbf{Lado do peso}, com $\vet{K}=-\seno\theta\,\vet{i}+\cos\theta\,\vet{k}$ e $\vet{k}\times\vet{i}=\vet{j}$:
+  \[
+    \vet{r}_G\times\vet{W}
+    =c\,\vet{k}\times\left(W\seno\theta\,\vet{i}-W\cos\theta\,\vet{k}\right)
+    =Wc\seno\theta\,\vet{j}
+  \]
+  \begin{center}
+    Os dois lados têm a direção de $\vet{j}$: basta igualar os coeficientes.
+  \end{center}
+  \note{[6:00 -- 7:00] Mostrar que só a componente j sobrevive. No determinante, a coluna do meio é zero, então i e k se anulam. No peso, k vezes k é zero e k vezes i é j. As contas completas estão no memorial de cálculo.}
+\end{frame}
+
+% ---------------------------------------------------------------- 8
+\begin{frame}{Equação da precessão permanente}
+  Igualando os lados e dividindo por $\seno\theta\neq0$; depois, $\omega_z=\psid+\phid\cos\theta$:
+  \begin{align*}
+    \phid\left[I\left(\psid+\phid\cos\theta\right)-I'\phid\cos\theta\right]&=Wc\\
+    I\psid\,\phid+I\cos\theta\,\phid^{\,2}-I'\cos\theta\,\phid^{\,2}&=Wc
+  \end{align*}
+  \begin{block}{Equação geral (segundo grau em $\phid$)}
     \[
       (I'-I)\cos\theta\;\phid^{\,2}-I\psid\,\phid+Wc=0
     \]
   \end{block}
-  \vspace{0.2cm}
-  Dividindo por $m$:
+  \vspace{0.15cm}
+  Como $I=mk^2$, $I'=mk'^2$ e $W=mg$, divide-se por $m$:
   \[
     (k'^2-k^2)\cos\theta\;\phid^{\,2}-k^2\psid\,\phid+gc=0
   \]
   \begin{center}
     \textbf{A massa se cancela:} as taxas dependem só da geometria e de $g$.
   \end{center}
-  \note{[6:00 -- 7:00] Duas raízes significam dois movimentos possíveis para o mesmo spin e a mesma inclinação. Comentar que a massa se cancela: um pião geometricamente igual, porém mais pesado, precessa à mesma taxa.}
+  \note{[7:00 -- 8:00] Fazer a distributiva e agrupar os termos em phi ao quadrado. Duas raízes significam dois movimentos possíveis para o mesmo spin e a mesma inclinação. Comentar que a massa se cancela: um pião geometricamente igual, porém mais pesado, precessa à mesma taxa.}
 \end{frame}
 
 % ---------------------------------------------------------------- 8
@@ -244,7 +270,9 @@
         a &= 1,6238\times10^{-4}\un{kg\cdot m^2}\\
         b &= 0,011781\un{kg\cdot m^2/s}\\
         Wc &= 0,03924\un{N\cdot m}\\
-        \sqrt{b^2-4aWc} &= 0,010644\un{kg\cdot m^2/s}
+        b^2 &= 1,3879\times10^{-4}\\
+        4aWc &= 0,2549\times10^{-4}\\
+        \sqrt{b^2-4aWc} &= \sqrt{1,1330\times10^{-4}}=0,010644
       \end{align*}
     \end{column}
     \begin{column}{0.42\textwidth}
@@ -259,7 +287,7 @@
       As duas raízes são positivas: ambas têm o sentido do \textit{spin}.}
     \end{column}
   \end{columns}
-  \note{[7:00 -- 8:30] Fazer a conta com calma. O spin de 1800 rpm equivale a 188,50 rad/s. Mencionar a verificação pelo produto das raízes. Chamar phi1 de precessão lenta e phi2 de rápida.}
+  \note{[8:00 -- 9:30] Fazer a conta com calma. O spin de 1800 rpm equivale a 188,50 rad/s. Mencionar a verificação pelo produto das raízes. Chamar phi1 de precessão lenta e phi2 de rápida.}
 \end{frame}
 
 % ---------------------------------------------------------------- 9
@@ -291,12 +319,13 @@
     A lenta quase não muda ($-2,2\%$); a rápida cresce $77\%$.\\
     {\small Atenção: as escalas verticais dos gráficos são diferentes.}
   \end{center}
-  \note{[8:30 -- 10:00] Comparar os dois gráficos, avisando que as escalas diferem. A lenta é quase independente de theta, o que antecipa o item (b). Fim da primeira parte: o segundo apresentador assume a partir daqui.}
+  \note{[9:30 -- 11:00] Comparar os dois gráficos, avisando que as escalas diferem. A lenta é quase independente de theta, o que antecipa o item (b). Fim da primeira parte: o segundo apresentador assume a partir daqui.}
 \end{frame}
 
 % ---------------------------------------------------------------- 10
 \begin{frame}{Item (b): condição para $\psid\gg\phid$}
-  Com $\psid\gg\phid$, tem-se $\omega_z\approx\psid$ e $I'\phid\cos\theta\ll I\psid$. Então:
+  A equação geral pode ser escrita como $\phid\,(b-a\phid)=Wc$, com $a=(I'-I)\cos\theta$ e $b=I\psid$.\\[0.1cm]
+  Se $\psid\gg\phid$, despreza-se $a\phid$ diante de $b$:
   \begin{block}{Condição de precessão permanente}
     \[
       \phid_a\approx\frac{Wc}{I\psid}=\frac{mgc}{I\psid}=\frac{0,03924}{0,011781}=3,33\un{rad/s}=31,8\un{rpm}
@@ -309,7 +338,7 @@
     \item Quanto \textbf{mais rápido} o \textit{spin}, \textbf{mais lenta} a precessão.
     \item Vale só para a raiz lenta: na rápida, $\phid_2/\psid$ vai de $0,37$ a $0,65$.
   \end{itemize}
-  \note{[10:00 -- 11:30] Esta é a resposta do item (b). Interpretar: H fica praticamente alinhado com o eixo de simetria. Explicar por que o resultado não depende de theta. Ressaltar que a hipótese não se aplica à raiz rápida, pois ela não é pequena diante do spin.}
+  \note{[11:00 -- 12:30] Esta é a resposta do item (b). Em 30 graus, o termo desprezado é 4,8\% de b. Interpretar: H fica praticamente alinhado com o eixo de simetria. Explicar por que o resultado não depende de theta. Ressaltar que a hipótese não se aplica à raiz rápida, pois ela não é pequena diante do spin.}
 \end{frame}
 
 % ---------------------------------------------------------------- 11
@@ -334,7 +363,37 @@
       \includegraphics[width=\linewidth]{erro_aproximacao_slide.pdf}
     \end{column}
   \end{columns}
-  \note{[11:30 -- 13:00] A aproximação é constante, 3,33 rad/s, enquanto a taxa exata varia pouco. O erro é pequeno para uma estimativa de engenharia. Se perguntarem a origem: é justamente a parcela desprezada, e = -(I'-I) cos(theta) phi1 / (I psi), como no relatório.}
+  \note{[12:30 -- 13:30] A aproximação é constante, 3,33 rad/s, enquanto a taxa exata varia pouco. O erro é pequeno para uma estimativa de engenharia. O próximo slide mostra de onde ele vem.}
+\end{frame}
+
+% ---------------------------------------------------------------- 13
+\begin{frame}{Item (c): de onde vem o erro}
+  \begin{columns}[c]
+    \begin{column}{0.54\textwidth}
+      $\phid_1$ é raiz de $\phid\,(b-a\phid)=Wc$. Dividindo por $b\,\phid_1$:
+      \[
+        1-\frac{a\phid_1}{b}=\frac{Wc}{b\,\phid_1}=\frac{\phid_a}{\phid_1}
+      \]
+      Como $e/100\%=\phid_a/\phid_1-1$:
+      \[
+        \frac{e}{100\%}=-\frac{a\phid_1}{b}
+      \]
+      Substituindo a raiz $\phid_1$, com $\eps=aWc/b^2$:
+      \[
+        \frac{e}{100\%}=\frac{\sqrt{1-4\eps}-1}{2}\approx-\eps
+      \]
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \begin{block}{Interpretação}
+        O erro é exatamente a razão entre o termo \textbf{desprezado} e o termo \textbf{mantido}.
+      \end{block}
+      \vspace{0.2cm}
+      {\small
+      Em $\theta=30^\circ$: $\eps=0,0459$, $e=-4,82\%$ (exato) e $-4,59\%$ (só com $-\eps$).\\[0.15cm]
+      Como $\eps\propto1/\psid^{\,2}$, dobrar o \textit{spin} reduz o erro a cerca de um quarto.}
+    \end{column}
+  \end{columns}
+  \note{[13:30 -- 15:00] Partir da equação do item (b) sem desprezar nada. A conta mostra que o erro não é um número solto: é o termo que foi jogado fora, dividido pelo que ficou. A expressão em epsilon deixa claro que o erro cai com o quadrado do spin, e isso é o que o próximo slide mostra.}
 \end{frame}
 
 % ---------------------------------------------------------------- 12
@@ -346,7 +405,7 @@
     \item Existe um \textit{spin} mínimo: $\displaystyle\psid_{\mathrm{min}}=\frac{2}{I}\sqrt{(I'-I)\cos\theta\;Wc}$, igual a $771\un{rpm}$ em $\theta=30^\circ$.
     \item O erro decai aproximadamente com $1/\psid^{\,2}$; fica abaixo de $1\%$ perto de $4000\un{rpm}$ em $\theta=30^\circ$.
   \end{itemize}
-  \note{[13:00 -- 14:00] Painel (a): abaixo do spin mínimo, a equação não tem raízes reais e não há precessão permanente; acima dele, as raízes se afastam. A linha pontilhada marca os 1800 rpm do problema. Painel (b): em escala logarítmica, a reta mostra o decaimento do erro.}
+  \note{[15:00 -- 16:00] Painel (a): abaixo do spin mínimo, a equação não tem raízes reais e não há precessão permanente; acima dele, as raízes se afastam. A linha pontilhada marca os 1800 rpm do problema. Painel (b): em escala logarítmica, a reta mostra o decaimento do erro.}
 \end{frame}
 
 % ---------------------------------------------------------------- 13
@@ -376,29 +435,7 @@
       \end{itemize}
     \end{column}
   \end{columns}
-  \note{[14:00 -- 15:30] As duas soluções são matematicamente válidas. A rápida só é viável com O realmente fixo, como admite o enunciado. Observação: o atrito é desprezado como dissipação e momento, mas a força horizontal em O é uma reação necessária, pois G descreve uma circunferência.}
-\end{frame}
-
-% ---------------------------------------------------------------- 14
-\begin{frame}{Estabilidade e nutação}
-  Perturbando o movimento ($\theta$ variável), a formulação lagrangiana conduz a:
-  \[
-    I'\ddot{\theta}=\seno\theta\left[\phid\left(I'\phid\cos\theta-p_\psi\right)+Wc\right],
-    \qquad p_\psi=I\omega_z
-  \]
-  Linearizando em torno de uma precessão permanente:
-  \begin{block}{Frequência de nutação}
-    \[
-      \omega_n=\frac{1}{I'}\sqrt{\left(p_\psi-2I'\phid\cos\theta\right)^2+\left(I'\phid\seno\theta\right)^2}
-    \]
-  \end{block}
-  \vspace{0.15cm}
-  \begin{itemize}
-    \item O radicando é sempre positivo: \textbf{as duas soluções são estáveis}.
-    \item Em $\theta=30^\circ$: $T_n=0,150\un{s}$ na lenta e $0,094\un{s}$ na rápida.
-    \item Impondo $\ddot{\theta}=0$, recupera-se a equação da precessão permanente.
-  \end{itemize}
-  \note{[15:30 -- 17:00] Nutação é a oscilação de theta. Uma pequena perturbação não derruba o pião, apenas o faz oscilar em torno da inclinação de equilíbrio. O fato de recuperar a mesma equação por outro caminho confirma a dedução vetorial.}
+  \note{[16:00 -- 17:30] As duas soluções são matematicamente válidas. A rápida só é viável com O realmente fixo, como admite o enunciado. Observação: o atrito é desprezado como dissipação e momento, mas a força horizontal em O é uma reação necessária, pois G descreve uma circunferência.}
 \end{frame}
 
 % ---------------------------------------------------------------- 15
@@ -410,12 +447,12 @@
     \begin{column}{0.35\textwidth}
       {\small
       \textbf{Método:} equações de Euler em eixos do corpo, quatérnios e Runge--Kutta de 4.ª ordem.\\[0.2cm]
-      \textbf{Precessão:} desvio $<10^{-8}\%$ em relação às raízes.\\[0.2cm]
-      \textbf{Nutação:} período idêntico ao previsto, até a 4.ª casa.\\[0.2cm]
-      \textbf{Pião solto ($\phid_0=0$):} $\theta$ oscila entre $30^\circ$ e $34,95^\circ$; taxa média de $3,55\un{rad/s}$. Ele não tomba.}
+      \textbf{Independência:} não usa a equação de segundo grau.\\[0.2cm]
+      \textbf{Taxas:} desvio $<10^{-8}\%$ em relação às raízes.\\[0.2cm]
+      \textbf{Inclinação:} $\theta$ constante, com variação $<10^{-8}$ graus.}
     \end{column}
   \end{columns}
-  \note{[17:00 -- 18:00] A simulação não usa a equação de segundo grau nem os ângulos de Euler; por isso é uma verificação independente. Curva contínua: precessão permanente, theta constante. Curva tracejada: pião solto sem precessão inicial, mais parecido com um lançamento real. Ele desce um pouco e avança em pequenos ciclos de nutação.}
+  \note{[17:30 -- 18:15] A simulação não usa a equação de segundo grau nem os ângulos de Euler; por isso é uma verificação independente. A reta mostra phi crescendo a taxa constante, com theta constante: é a precessão permanente prevista.}
 \end{frame}
 
 % ---------------------------------------------------------------- 16
@@ -425,20 +462,19 @@
     \item \textbf{(a)} Duas taxas: lenta de $3,50$ a $3,42\un{rad/s}$ e rápida de $69,1$ a $122,2\un{rad/s}$.
     \item \textbf{(b)} Para $\psid\gg\phid$: $\phid_a\approx Wc/(I\psid)=3,33\un{rad/s}$, independente de $\theta$.
     \item \textbf{(c)} Erro de $4,82\%$ a $2,72\%$, sempre por falta.
-    \item Ambas as soluções são estáveis, mas só a lenta é fisicamente acessível a um pião comum.
+    \item As duas soluções existem acima de um \textit{spin} mínimo, mas só a lenta é fisicamente acessível a um pião comum.
     \item A integração numérica independente confirmou os resultados.
   \end{itemize}
   \vspace{0.3cm}
   {\small\textbf{Limitações do modelo:} não representa o decaimento do \textit{spin} por atrito nem o deslizamento da ponta.}
-  \note{[18:00 -- 19:00] Retomar a pergunta inicial: o pião não cai porque o momento do peso é perpendicular ao plano de queda. Dar as três respostas e citar as limitações. Sobra cerca de 1 minuto de margem.}
+  \note{[18:15 -- 19:15] Retomar a pergunta inicial: o pião não cai porque o momento do peso é perpendicular ao plano de queda. Dar as três respostas e citar as limitações. Sobra cerca de 1 minuto de margem.}
 \end{frame}
 
 % ---------------------------------------------------------------- 17
 \begin{frame}[plain]
   \begin{center}
     {\usebeamercolor[fg]{title}\Huge\bfseries Perguntas?}\\[0.8cm]
-    {\small BEER, F. P.; JOHNSTON JR., E. R.; CORNWELL, P. J. \textit{Mecânica Vetorial para Engenheiros: Dinâmica}. 9. ed. Porto Alegre: AMGH, 2012.\\[0.15cm]
-    GOLDSTEIN, H.; POOLE, C.; SAFKO, J. \textit{Classical Mechanics}. 3. ed. San Francisco: Addison-Wesley, 2002.}
+    {\small BEER, F. P.; JOHNSTON JR., E. R.; CORNWELL, P. J. \textit{Mecânica Vetorial para Engenheiros: Dinâmica}. 9. ed. Porto Alegre: AMGH, 2012.}
   \end{center}
   \note{Arguição: cerca de 5 minutos. Os slides seguintes são de apoio; use-os apenas se surgirem perguntas sobre esses pontos.}
 \end{frame}
@@ -446,42 +482,7 @@
 \appendix
 
 % ---------------------------------------------------------------- apoio
-\begin{frame}{Apoio: dedução do produto vetorial}
-  Com $\vOmega=-\phid\seno\theta\,\vet{i}+\phid\cos\theta\,\vet{k}$ e $\vet{H}_O=-I'\phid\seno\theta\,\vet{i}+I\omega_z\,\vet{k}$, e usando $\vet{i}\times\vet{k}=-\vet{j}$:
-  \begin{align*}
-    \vOmega\times\vet{H}_O
-    &=\left(-\phid\seno\theta\right)\left(I\omega_z\right)\left(\vet{i}\times\vet{k}\right)
-     +\left(\phid\cos\theta\right)\left(-I'\phid\seno\theta\right)\left(\vet{k}\times\vet{i}\right)\\
-    &=\left(I\omega_z-I'\phid\cos\theta\right)\phid\seno\theta\,\vet{j}
-  \end{align*}
-  Momento do peso, com $\vet{W}=-W\vet{K}=W\seno\theta\,\vet{i}-W\cos\theta\,\vet{k}$:
-  \[
-    \vet{r}_G\times\vet{W}=c\,\vet{k}\times\left(W\seno\theta\,\vet{i}-W\cos\theta\,\vet{k}\right)=Wc\seno\theta\,\vet{j}
-  \]
-  \note{Usar se pedirem o passo a passo do produto vetorial.}
-\end{frame}
-
-\begin{frame}{Apoio: formulação lagrangiana}
-  \[
-    L=\frac{1}{2}I'\left(\dot{\theta}^2+\phid^{\,2}\seno^2\theta\right)
-      +\frac{1}{2}I\left(\psid+\phid\cos\theta\right)^2-Wc\cos\theta
-  \]
-  $\phi$ e $\psi$ não aparecem explicitamente em $L$; logo, conservam-se:
-  \[
-    p_\psi=I\omega_z,
-    \qquad
-    p_\phi=I'\phid\seno^2\theta+p_\psi\cos\theta
-  \]
-  Fisicamente, são as componentes de $\vet{H}_O$ segundo o eixo de simetria e segundo a vertical, pois o momento do peso é perpendicular a ambas.
-  \note{Usar se perguntarem de onde vem a equação de nutação ou o que se conserva no movimento.}
-\end{frame}
-
-\begin{frame}{Apoio: casos-limite}
-  \begin{block}{Pião na vertical ($\theta=0$)}
-    É estável se $\displaystyle\omega_z>\frac{2}{I}\sqrt{I'Wc}=100,2\un{rad/s}=957\un{rpm}$.\\
-    A $1800\un{rpm}$, poderia manter-se de pé; com o atrito, o \textit{spin} decai até esse limite e o pião começa a oscilar.
-  \end{block}
-  \vspace{0.2cm}
+\begin{frame}{Apoio: casos particulares}
   \begin{block}{Inclinação acima de $90^\circ$}
     Como $\phid_1\phid_2=Wc/a$ e $a<0$, as raízes têm sinais opostos: uma das precessões passa a ter sentido contrário ao do \textit{spin}.
   \end{block}
@@ -489,7 +490,7 @@
   \begin{block}{Massa}
     A massa se cancela nas taxas e em $R_h/W=c\seno\theta\,\phid^{\,2}/g$.
   \end{block}
-  \note{Usar se perguntarem sobre o pião em pé, sobre inclinações maiores ou sobre o efeito da massa.}
+  \note{Usar se perguntarem sobre inclinações maiores ou sobre o efeito da massa.}
 \end{frame}
 
 \end{document}

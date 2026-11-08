@@ -1,0 +1,479 @@
+% =====================================================================
+% Memorial de cálculo - Trabalho de VE - Mecânica II - Grupo I (Pião)
+% Desenvolve, passo a passo, as contas do relatório.
+% Compilação: compilar ANTES relatorio_grupo_I.tex (os números das equações
+% do relatório são lidos de relatorio_grupo_I.aux) e depois executar
+% pdflatex memorial_de_calculo.tex  duas vezes.
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[brazil]{babel}
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{icomma}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc}
+\definecolor{azul}{HTML}{2A78D6}
+\definecolor{laranja}{HTML}{EB6834}
+\definecolor{tinta2}{HTML}{52514E}
+\definecolor{apoio}{HTML}{E3E1DA}
+\definecolor{corpo}{HTML}{F4E6DC}
+\definecolor{corpoesc}{HTML}{DDBBA6}
+\definecolor{corpob}{HTML}{A9765A}
+\usepackage[font=small,labelfont=bf,labelsep=endash]{caption}
+\usepackage{xr-hyper}
+\usepackage[hidelinks]{hyperref}
+\externaldocument[rel-]{relatorio_grupo_I}
+
+\setstretch{1.15}
+
+\newcommand{\vet}[1]{\mathbf{#1}}
+\newcommand{\vomega}{\boldsymbol{\omega}}
+\newcommand{\vOmega}{\boldsymbol{\Omega}}
+\newcommand{\seno}{\operatorname{sen}}
+\newcommand{\un}[1]{\,\mathrm{#1}}
+\newcommand{\phid}{\dot{\phi}}
+\newcommand{\psid}{\dot{\psi}}
+\newcommand{\eps}{\varepsilon}
+% remissão à equação do relatório
+\newcommand{\rel}[1]{\textit{(equação~\ref*{rel-eq:#1} do relatório)}}
+
+\title{\textbf{Memorial de cálculo}\\[0.2cm]\large Pião: precessão permanente -- Trabalho de VE de Mecânica II -- Grupo I}
+\author{}
+\date{Novembro de 2026}
+
+\begin{document}
+\maketitle
+\vspace{-1cm}
+
+\noindent Este documento abre, passo a passo, as contas que o relatório apresenta de forma resumida. Nenhum resultado novo é introduzido: cada dedução parte dos dados do enunciado e termina em uma equação ou valor do relatório, indicado entre parênteses e em itálico. Os valores numéricos intermediários aparecem arredondados, mas os resultados foram calculados sem arredondamentos intermediários.
+
+\tableofcontents
+
+% ---------------------------------------------------------------------
+\section{Dados e conversões de unidades}
+
+Todas as grandezas são convertidas para o Sistema Internacional antes de qualquer conta:
+\begin{align}
+m &= 100\un{g} = 0,100\un{kg}, & c &= 40\un{mm} = 0,040\un{m},\\
+k &= 25\un{mm} = 0,025\un{m}, & k' &= 50\un{mm} = 0,050\un{m}.
+\end{align}
+
+O \textit{spin} é dado em rotações por minuto. Como uma rotação equivale a $2\pi$ radianos e um minuto a $60$ segundos,
+\begin{equation}
+\psid = 1800\,\frac{\mathrm{rot}}{\mathrm{min}}\cdot\frac{2\pi\un{rad}}{1\un{rot}}\cdot\frac{1\un{min}}{60\un{s}} = 60\pi\un{rad/s} = 188,4956\un{rad/s}.
+\end{equation}
+A conversão inversa, usada para expressar os resultados em rpm, é $1\un{rad/s}=60/(2\pi)\un{rpm}=9,5493\un{rpm}$. O enunciado não fornece a gravidade; adota-se $g=9,81\un{m/s^2}$.
+
+% ---------------------------------------------------------------------
+\section{Grandezas auxiliares}
+
+O momento de inércia em relação a um eixo é a massa multiplicada pelo quadrado do raio de giração correspondente \rel{inercia}:
+\begin{align}
+I  &= mk^2  = 0,100\cdot(0,025)^2 = 0,100\cdot6,25\times10^{-4} = 6,25\times10^{-5}\un{kg\cdot m^2},\\
+I' &= mk'^2 = 0,100\cdot(0,050)^2 = 0,100\cdot2,50\times10^{-3} = 2,50\times10^{-4}\un{kg\cdot m^2}.
+\end{align}
+A diferença e os demais produtos que aparecem repetidamente \rel{coef} valem:
+\begin{align}
+I'-I &= 2,50\times10^{-4}-0,625\times10^{-4} = 1,875\times10^{-4}\un{kg\cdot m^2},\\
+W &= mg = 0,100\cdot9,81 = 0,981\un{N},\\
+Wc &= 0,981\cdot0,040 = 0,03924\un{N\cdot m},\\
+b &= I\psid = 6,25\times10^{-5}\cdot188,4956 = 0,0117810\un{kg\cdot m^2/s}.\label{m:b}
+\end{align}
+
+% ---------------------------------------------------------------------
+\section{Cinemática}
+
+\begin{figure}[H]
+\centering
+\input{figuras/diagrama_corpo_livre}
+\caption{Referencial $Oxyz$ e forças no pião (a mesma figura do relatório).}
+\label{m:fig:dcl}
+\end{figure}
+
+A Figura~\ref{m:fig:dcl} define o referencial. O eixo $z$ é o eixo de simetria; $x$ pertence ao plano vertical $Zz$; $y$ completa o triedro direto, com $\vet{j}=\vet{k}\times\vet{i}$.
+
+\paragraph{Decomposição de $\vet{K}$.} O vetor unitário vertical pertence ao plano $xz$, logo só tem componentes segundo $\vet{i}$ e $\vet{k}$. Cada componente é o produto escalar com o respectivo unitário. Como o ângulo entre $\vet{K}$ e $\vet{k}$ é $\theta$ e o ângulo entre $\vet{K}$ e $\vet{i}$ é $90^\circ+\theta$,
+\begin{align}
+\vet{K}\cdot\vet{k} &= \cos\theta,\\
+\vet{K}\cdot\vet{i} &= \cos(90^\circ+\theta) = -\seno\theta,
+\end{align}
+de onde \rel{K}
+\begin{equation}
+\vet{K}=-\seno\theta\,\vet{i}+\cos\theta\,\vet{k}.\label{m:K}
+\end{equation}
+
+\paragraph{Velocidade angular.} O corpo gira à taxa $\phid$ em torno de $Z$ e à taxa $\psid$ em torno de $z$, e as velocidades angulares se somam vetorialmente \rel{omega}. Substituindo a equação~\ref{m:K}:
+\begin{align}
+\vomega &= \phid\,\vet{K}+\psid\,\vet{k}
+         = \phid\left(-\seno\theta\,\vet{i}+\cos\theta\,\vet{k}\right)+\psid\,\vet{k}\nonumber\\
+        &= -\phid\seno\theta\,\vet{i}+\left(\psid+\phid\cos\theta\right)\vet{k}.
+\end{align}
+Define-se a componente axial \rel{compomega}
+\begin{equation}
+\omega_z=\psid+\phid\cos\theta.\label{m:wz}
+\end{equation}
+
+\paragraph{Velocidade angular do referencial.} O referencial $Oxyz$ acompanha somente a precessão: ele não gira com o \textit{spin}. Portanto \rel{Omega}
+\begin{equation}
+\vOmega=\phid\,\vet{K}=-\phid\seno\theta\,\vet{i}+\phid\cos\theta\,\vet{k}.\label{m:Omega}
+\end{equation}
+
+% ---------------------------------------------------------------------
+\section{Quantidade de movimento angular}
+
+Os eixos $Oxyz$ são principais de inércia em relação a $O$: por simetria, o tensor de inércia é diagonal e tem $I'$ nas duas direções transversais. Como $\omega_y=0$,
+\begin{equation}
+\vet{H}_O=\vet{I}_O\cdot\vomega=
+\begin{pmatrix}I'&0&0\\0&I'&0\\0&0&I\end{pmatrix}
+\begin{pmatrix}-\phid\seno\theta\\0\\\omega_z\end{pmatrix}
+=\begin{pmatrix}-I'\phid\seno\theta\\0\\I\omega_z\end{pmatrix},
+\end{equation}
+isto é \rel{H},
+\begin{equation}
+\vet{H}_O=-I'\phid\seno\theta\,\vet{i}+I\omega_z\,\vet{k}.\label{m:H}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\input{figuras/diagrama_vetores}
+\caption{Composição vetorial de $\boldsymbol{\omega}$ e de $\mathbf{H}_O$ (a mesma figura do relatório).}
+\label{m:fig:vet}
+\end{figure}
+
+A Figura~\ref{m:fig:vet} mostra que $\vet{H}_O$ tem direção diferente de $\vomega$: as componentes de $\vomega$ são multiplicadas por momentos de inércia diferentes.
+
+% ---------------------------------------------------------------------
+\section{Equação do movimento}
+
+\paragraph{Derivada em referencial móvel.} Para um vetor qualquer, a derivada no referencial fixo é a derivada medida no referencial móvel mais o termo devido à rotação deste:
+\begin{equation}
+\dot{\vet{H}}_O=\left(\dot{\vet{H}}_O\right)_{Oxyz}+\vOmega\times\vet{H}_O.
+\end{equation}
+Na precessão permanente, $\theta$, $\phid$ e $\psid$ são constantes; logo, os coeficientes de $\vet{i}$ e $\vet{k}$ na equação~\ref{m:H} são constantes e a primeira parcela é nula. Assim \rel{eulerM},
+\begin{equation}
+\sum\vet{M}_O=\vOmega\times\vet{H}_O.\label{m:euler}
+\end{equation}
+
+\paragraph{Produto vetorial.} Com as equações~\ref{m:Omega} e~\ref{m:H}, escrevendo o produto como determinante:
+\begin{equation}
+\vOmega\times\vet{H}_O=
+\begin{vmatrix}
+\vet{i}&\vet{j}&\vet{k}\\
+-\phid\seno\theta&0&\phid\cos\theta\\
+-I'\phid\seno\theta&0&I\omega_z
+\end{vmatrix}.
+\end{equation}
+Como a coluna central é nula a menos do unitário, as componentes $\vet{i}$ e $\vet{k}$ se anulam, e resta apenas a componente $\vet{j}$, que entra com o sinal negativo do cofator:
+\begin{align}
+\vOmega\times\vet{H}_O
+&=-\vet{j}\left[\left(-\phid\seno\theta\right)\left(I\omega_z\right)-\left(\phid\cos\theta\right)\left(-I'\phid\seno\theta\right)\right]\nonumber\\
+&=-\vet{j}\left[-I\omega_z\phid\seno\theta+I'\phid^{\,2}\seno\theta\cos\theta\right]\nonumber\\
+&=\left(I\omega_z-I'\phid\cos\theta\right)\phid\seno\theta\,\vet{j}.\label{m:OxH}
+\end{align}
+Esse resultado é a equação~\ref*{rel-eq:OmegaH} do relatório.
+
+\paragraph{Momento do peso.} O peso é aplicado em $G$, com $\vet{r}_G=c\,\vet{k}$. Usando a equação~\ref{m:K}, $\vet{W}=-W\vet{K}=W\seno\theta\,\vet{i}-W\cos\theta\,\vet{k}$. Lembrando que $\vet{k}\times\vet{k}=\vet{0}$ e $\vet{k}\times\vet{i}=\vet{j}$ \rel{M}:
+\begin{equation}
+\sum\vet{M}_O=c\,\vet{k}\times\left(W\seno\theta\,\vet{i}-W\cos\theta\,\vet{k}\right)=Wc\seno\theta\,\vet{j}.\label{m:M}
+\end{equation}
+A reação em $O$ não contribui, pois seu braço em relação a $O$ é nulo.
+
+\paragraph{Da igualdade vetorial à equação escalar.} Substituindo as equações~\ref{m:OxH} e~\ref{m:M} na equação~\ref{m:euler}, ambos os lados têm a direção de $\vet{j}$. Para $\theta\neq0$, tem-se $\seno\theta\neq0$ e esse fator pode ser cancelado \rel{condicao}:
+\begin{equation}
+\phid\left(I\omega_z-I'\phid\cos\theta\right)=Wc.\label{m:cond}
+\end{equation}
+
+\paragraph{Forma de segundo grau.} Substitui-se $\omega_z$ pela equação~\ref{m:wz} e aplica-se a distributiva:
+\begin{align}
+\phid\left[I\left(\psid+\phid\cos\theta\right)-I'\phid\cos\theta\right]&=Wc\nonumber\\
+I\psid\,\phid+I\cos\theta\,\phid^{\,2}-I'\cos\theta\,\phid^{\,2}&=Wc\nonumber\\
+I\psid\,\phid-(I'-I)\cos\theta\,\phid^{\,2}&=Wc.\label{m:intermed}
+\end{align}
+Passando todos os termos para o lado direito, chega-se a \rel{quad}
+\begin{equation}
+(I'-I)\cos\theta\;\phid^{\,2}-I\psid\,\phid+Wc=0.\label{m:quad}
+\end{equation}
+
+\paragraph{Por que a massa não importa.} Como $I=mk^2$, $I'=mk'^2$ e $W=mg$, todos os coeficientes da equação~\ref{m:quad} contêm o fator $m$. Dividindo-a por $m$ \rel{quadk}:
+\begin{equation}
+(k'^2-k^2)\cos\theta\;\phid^{\,2}-k^2\psid\,\phid+gc=0.
+\end{equation}
+
+% ---------------------------------------------------------------------
+\section{Item (a): as duas taxas de precessão}
+
+Com $a=(I'-I)\cos\theta$ e $b=I\psid$, a equação~\ref{m:quad} é $a\phid^{\,2}-b\phid+Wc=0$. A fórmula de Bhaskara, com $\Delta=b^2-4aWc$, fornece \rel{raizes}:
+\begin{equation}
+\phid_1=\frac{b-\sqrt{\Delta}}{2a},\qquad\phid_2=\frac{b+\sqrt{\Delta}}{2a}.\label{m:raizes}
+\end{equation}
+Verificação dimensional: $a\phid^{\,2}$ tem unidade $\mathrm{kg\cdot m^2/s^2}=\mathrm{N\cdot m}$, a mesma de $Wc$ e de $b\phid$.
+
+\subsection{Conta completa para $\theta=30^\circ$}
+
+\begin{align}
+a&=1,875\times10^{-4}\cdot\cos30^\circ=1,875\times10^{-4}\cdot0,866025=1,62380\times10^{-4}\un{kg\cdot m^2},\\
+b^2&=(0,0117810)^2=1,38791\times10^{-4}\un{kg^2\cdot m^4/s^2},\\
+4aWc&=4\cdot1,62380\times10^{-4}\cdot0,03924=2,54872\times10^{-5}\un{kg^2\cdot m^4/s^2},\\
+\Delta&=1,38791\times10^{-4}-0,254872\times10^{-4}=1,13304\times10^{-4}\un{kg^2\cdot m^4/s^2},\\
+\sqrt{\Delta}&=0,0106444\un{kg\cdot m^2/s},\\
+2a&=3,24760\times10^{-4}\un{kg\cdot m^2}.
+\end{align}
+A raiz rápida resulta diretamente \rel{num30}:
+\begin{equation}
+\phid_2=\frac{0,0117810+0,0106444}{3,24760\times10^{-4}}=\frac{0,0224254}{3,24760\times10^{-4}}=69,05\un{rad/s}=659,4\un{rpm}.
+\end{equation}
+
+Na raiz lenta, o numerador é a diferença de dois números próximos, o que amplifica os erros de arredondamento. Multiplicando numerador e denominador da equação~\ref{m:raizes} por $b+\sqrt{\Delta}$ e usando $(b-\sqrt{\Delta})(b+\sqrt{\Delta})=b^2-\Delta=4aWc$, obtém-se uma forma equivalente, sem essa subtração:
+\begin{equation}
+\phid_1=\frac{4aWc}{2a\left(b+\sqrt{\Delta}\right)}=\frac{2Wc}{b+\sqrt{\Delta}}=\frac{2\cdot0,03924}{0,0224254}=3,4996\un{rad/s}=33,42\un{rpm}.\label{m:estavel}
+\end{equation}
+
+As duas raízes podem ser conferidas pelas relações de soma e produto de uma equação de segundo grau:
+\begin{align}
+\phid_1+\phid_2&=\frac{b}{a}=\frac{0,0117810}{1,62380\times10^{-4}}=72,55\un{rad/s}\quad(3,50+69,05=72,55),\\
+\phid_1\,\phid_2&=\frac{Wc}{a}=\frac{0,03924}{1,62380\times10^{-4}}=241,7\un{rad^2/s^2}\quad(3,4996\cdot69,05=241,7).
+\end{align}
+Para $\theta<90^\circ$, $a$ é positivo; a soma e o produto são então positivos, e as duas raízes também: ambas as precessões têm o sentido do \textit{spin}.
+
+\subsection{Toda a faixa de inclinação}
+
+A Tabela~\ref{m:tab:a} repete a sequência acima para cada ângulo. Os coeficientes $b$ e $Wc$, e portanto $b^2=1,38791\times10^{-4}$, não dependem de $\theta$. A Tabela~\ref{m:tab:rpm} traz a conversão para rpm e as verificações.
+
+\begin{table}[H]
+\centering\small
+\caption{Etapas do cálculo das raízes (unidades SI; $a$ em $10^{-4}$, $4aWc$ em $10^{-5}$, $\Delta$ em $10^{-4}$).}
+\label{m:tab:a}
+\begin{tabular}{cccccccc}
+\toprule
+$\theta$ & $\cos\theta$ & $a$ & $4aWc$ & $\Delta$ & $\sqrt{\Delta}$ & $\phid_1$ (rad/s) & $\phid_2$ (rad/s)\\
+\midrule
+$30^\circ$ & $0,86603$ & $1,6238$ & $2,5487$ & $1,1330$ & $0,010644$ & $3,4996$ & $69,052$\\
+$35^\circ$ & $0,81915$ & $1,5359$ & $2,4108$ & $1,1468$ & $0,010709$ & $3,4895$ & $73,214$\\
+$40^\circ$ & $0,76604$ & $1,4363$ & $2,2545$ & $1,1625$ & $0,010782$ & $3,4783$ & $78,543$\\
+$45^\circ$ & $0,70711$ & $1,3258$ & $2,0810$ & $1,1798$ & $0,010862$ & $3,4660$ & $85,392$\\
+$50^\circ$ & $0,64279$ & $1,2052$ & $1,8917$ & $1,1987$ & $0,010949$ & $3,4528$ & $94,296$\\
+$55^\circ$ & $0,57358$ & $1,0755$ & $1,6880$ & $1,2191$ & $0,011041$ & $3,4387$ & $106,105$\\
+$60^\circ$ & $0,50000$ & $0,9375$ & $1,4715$ & $1,2408$ & $0,011139$ & $3,4241$ & $122,240$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Taxas em rpm e verificação da soma e do produto das raízes.}
+\label{m:tab:rpm}
+\begin{tabular}{ccccccc}
+\toprule
+$\theta$ & $\phid_1$ (rpm) & $\phid_2$ (rpm) & $\phid_1+\phid_2$ & $b/a$ & $\phid_1\phid_2$ & $Wc/a$\\
+\midrule
+$30^\circ$ & $33,42$ & $659,4$ & $72,55$ & $72,55$ & $241,7$ & $241,7$\\
+$35^\circ$ & $33,32$ & $699,1$ & $76,70$ & $76,70$ & $255,5$ & $255,5$\\
+$40^\circ$ & $33,22$ & $750,0$ & $82,02$ & $82,02$ & $273,2$ & $273,2$\\
+$45^\circ$ & $33,10$ & $815,4$ & $88,86$ & $88,86$ & $296,0$ & $296,0$\\
+$50^\circ$ & $32,97$ & $900,5$ & $97,75$ & $97,75$ & $325,6$ & $325,6$\\
+$55^\circ$ & $32,84$ & $1013,2$ & $109,54$ & $109,54$ & $364,9$ & $364,9$\\
+$60^\circ$ & $32,70$ & $1167,3$ & $125,66$ & $125,66$ & $418,6$ & $418,6$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{\textit{Spin} mínimo}
+
+Para que existam raízes reais, deve-se ter $\Delta\geq0$:
+\begin{equation}
+\left(I\psid\right)^2\geq4(I'-I)\cos\theta\;Wc
+\quad\Longrightarrow\quad
+\psid\geq\psid_{\mathrm{min}}=\frac{2}{I}\sqrt{(I'-I)\cos\theta\;Wc}.
+\end{equation}
+Essa é a equação~\ref*{rel-eq:psimin} do relatório. Numericamente, com $2/I=32000\un{kg^{-1}\cdot m^{-2}}$:
+\begin{align}
+\theta=30^\circ:&\quad\psid_{\mathrm{min}}=32000\sqrt{1,62380\times10^{-4}\cdot0,03924}=80,78\un{rad/s}=771\un{rpm},\\
+\theta=60^\circ:&\quad\psid_{\mathrm{min}}=32000\sqrt{9,375\times10^{-5}\cdot0,03924}=61,38\un{rad/s}=586\un{rpm}.
+\end{align}
+
+% ---------------------------------------------------------------------
+\section{Item (b): condição para $\psid\gg\phid$}
+
+A equação~\ref{m:intermed} pode ser escrita, colocando $\phid$ em evidência, como
+\begin{equation}
+\phid\,\left(b-a\phid\right)=Wc.\label{m:bafi}
+\end{equation}
+A aproximação consiste em desprezar $a\phid$ em comparação com $b$, o que é razoável quando $\psid\gg\phid$. Resulta \rel{aprox}:
+\begin{equation}
+\phid_a=\frac{Wc}{b}=\frac{Wc}{I\psid}=\frac{mgc}{I\psid}=\frac{0,03924}{0,0117810}=3,3308\un{rad/s}=31,81\un{rpm}.
+\end{equation}
+
+\paragraph{Tamanho do termo desprezado.} Para $\theta=30^\circ$ e $\phid=\phid_1=3,4996\un{rad/s}$:
+\begin{align}
+I'\phid\cos\theta&=2,50\times10^{-4}\cdot3,4996\cdot0,866025=7,577\times10^{-4},\\
+I\phid\cos\theta&=6,25\times10^{-5}\cdot3,4996\cdot0,866025=1,894\times10^{-4},\\
+a\phid&=7,577\times10^{-4}-1,894\times10^{-4}=5,683\times10^{-4},
+\end{align}
+valor que corresponde a $5,683\times10^{-4}/0,0117810=4,82\%$ de $b$.
+
+\paragraph{Por que a taxa não depende de $\theta$.} Admitir $\vet{H}_O\approx I\psid\,\vet{k}$ na equação~\ref{m:euler} equivale a escrever $\vOmega\times\vet{H}_O\approx\phid\,\vet{K}\times I\psid\,\vet{k}$, de módulo $\phid\,I\psid\seno\theta$. Igualando a $Wc\seno\theta$ \rel{OmegaH_approx}, o fator $\seno\theta$ se cancela.
+
+\paragraph{Por que vale apenas para a raiz lenta.} Na raiz rápida, $a\phid_2$ não é pequeno diante de $b$: $\phid_2\approx b/a$, valor que é justamente o da soma das raízes (Tabela~\ref{m:tab:rpm}). Além disso, $\phid_2/\psid$ vai de $69,05/188,50=0,37$ a $122,24/188,50=0,65$, de modo que $\psid\gg\phid$ não é satisfeita.
+
+% ---------------------------------------------------------------------
+\section{Item (c): erro da aproximação}
+
+\paragraph{Valor numérico.} Em $\theta=30^\circ$ \rel{erro30}:
+\begin{equation}
+e=\frac{\phid_a-\phid_1}{\phid_1}\times100\%=\frac{3,3308-3,4996}{3,4996}\times100\%=-4,82\%.
+\end{equation}
+
+\paragraph{Expressão exata.} Como $\phid_1$ é raiz, a equação~\ref{m:bafi} vale para ela. Dividindo-a por $b\,\phid_1$:
+\begin{equation}
+1-\frac{a\phid_1}{b}=\frac{Wc}{b\,\phid_1}=\frac{\phid_a}{\phid_1}.
+\end{equation}
+Como $e/100\%=\phid_a/\phid_1-1$, segue \rel{errofis}:
+\begin{equation}
+\frac{e}{100\%}=-\frac{a\phid_1}{b}.\label{m:e}
+\end{equation}
+Ou seja, o erro é exatamente a razão entre o termo desprezado e o termo mantido. Conferindo em $\theta=30^\circ$: $-5,683\times10^{-4}/0,0117810=-0,0482$.
+
+\paragraph{Forma fechada.} Substitui-se $\phid_1$ da equação~\ref{m:raizes} na equação~\ref{m:e}; o fator $a$ se cancela e coloca-se $b$ em evidência na raiz (lembrando que $\sqrt{\Delta}=b\sqrt{1-4aWc/b^2}$):
+\begin{equation}
+\frac{a\phid_1}{b}=\frac{b-\sqrt{\Delta}}{2b}=\frac{1-\sqrt{1-4\eps}}{2},\qquad\eps=\frac{aWc}{b^2}.
+\end{equation}
+Logo \rel{errofechado}:
+\begin{equation}
+\frac{e}{100\%}=\frac{\sqrt{1-4\eps}-1}{2}.\label{m:efech}
+\end{equation}
+Para $\theta=30^\circ$: $\eps=1,62380\times10^{-4}\cdot0,03924/1,38791\times10^{-4}=0,04591$; $\sqrt{1-4\eps}=\sqrt{0,81636}=0,90353$; e $e=(0,90353-1)/2=-0,0482$.
+
+\paragraph{Aproximação em série.} Pela série binomial $\sqrt{1-u}=1-u/2-u^2/8-\cdots$, com $u=4\eps$ \rel{erroserie}:
+\begin{equation}
+\sqrt{1-4\eps}=1-2\eps-2\eps^2-\cdots
+\quad\Longrightarrow\quad
+\frac{e}{100\%}=-\eps-\eps^2-\cdots.
+\end{equation}
+Em $\theta=30^\circ$, $-\eps$ fornece $-4,59\%$, e $-\eps-\eps^2$ fornece $-4,80\%$, próximo do valor exato de $-4,82\%$.
+
+\paragraph{Dependência do \textit{spin}.} Como $b=I\psid$, tem-se $\eps\propto1/\psid^{\,2}$: ao dobrar o \textit{spin}, $\eps$ e, em primeira ordem, o erro caem a um quarto.
+
+\begin{table}[H]
+\centering\small
+\caption{Etapas do cálculo do erro, com $\phid_a=3,3308\un{rad/s}$.}
+\label{m:tab:erro}
+\begin{tabular}{cccccc}
+\toprule
+$\theta$ & $\phid_1$ (rad/s) & $\eps$ & $\sqrt{1-4\eps}$ & $e$ exato (\%) & $-\eps$ (\%)\\
+\midrule
+$30^\circ$ & $3,4996$ & $0,04591$ & $0,90353$ & $-4,82$ & $-4,59$\\
+$35^\circ$ & $3,4895$ & $0,04342$ & $0,90901$ & $-4,55$ & $-4,34$\\
+$40^\circ$ & $3,4783$ & $0,04061$ & $0,91519$ & $-4,24$ & $-4,06$\\
+$45^\circ$ & $3,4660$ & $0,03748$ & $0,92199$ & $-3,90$ & $-3,75$\\
+$50^\circ$ & $3,4528$ & $0,03407$ & $0,92935$ & $-3,53$ & $-3,41$\\
+$55^\circ$ & $3,4387$ & $0,03041$ & $0,93722$ & $-3,14$ & $-3,04$\\
+$60^\circ$ & $3,4241$ & $0,02651$ & $0,94550$ & $-2,72$ & $-2,65$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Reações no apoio e energia}
+
+\paragraph{Reações.} O centro de gravidade descreve uma circunferência horizontal de raio $c\seno\theta$ com velocidade angular $\phid$. Sua aceleração é, portanto, centrípeta, de módulo $(c\seno\theta)\phid^{\,2}$. Aplicando a segunda lei de Newton \rel{reacoes}:
+\begin{equation}
+\text{vertical: } N-W=0\Rightarrow N=W;\qquad\text{horizontal: } R_h=mc\seno\theta\;\phid^{\,2}.
+\end{equation}
+A razão $R_h/W=c\seno\theta\,\phid^{\,2}/g$ não depende da massa. Em $\theta=30^\circ$, com $mc\seno\theta=0,100\cdot0,040\cdot0,5=0,0020\un{kg\cdot m}$:
+\begin{align}
+\text{lenta: }&R_h=0,0020\cdot(3,4996)^2=0,0245\un{N},&R_h/W&=0,025,\\
+\text{rápida: }&R_h=0,0020\cdot(69,052)^2=9,536\un{N},&R_h/W&=9,72.
+\end{align}
+
+\paragraph{Energia.} A energia cinética tem uma parcela axial e uma transversal, e a energia potencial é medida a partir da altura de $O$ \rel{energia}:
+\begin{equation}
+E=\tfrac{1}{2}I'\left(\phid\seno\theta\right)^2+\tfrac{1}{2}I\omega_z^2+Wc\cos\theta.
+\end{equation}
+Em $\theta=30^\circ$, com $Wc\cos\theta=0,0340\un{J}$:
+\begin{align}
+\text{lenta: }&\omega_z=188,4956+3,4996\cdot0,866025=191,53\un{rad/s},\nonumber\\
+&E=\tfrac{1}{2}(2,5\times10^{-4})(1,7498)^2+\tfrac{1}{2}(6,25\times10^{-5})(191,53)^2+0,0340=1,181\un{J},\\
+\text{rápida: }&\omega_z=188,4956+69,052\cdot0,866025=248,30\un{rad/s},\nonumber\\
+&E=\tfrac{1}{2}(2,5\times10^{-4})(34,526)^2+\tfrac{1}{2}(6,25\times10^{-5})(248,30)^2+0,0340=2,110\un{J}.
+\end{align}
+A Tabela~\ref{m:tab:fis} reúne os valores das três inclinações usadas no relatório.
+
+\begin{table}[H]
+\centering\small
+\caption{Grandezas físicas das duas soluções.}
+\label{m:tab:fis}
+\begin{tabular}{ccccccc}
+\toprule
+$\theta$ & Solução & $\phid/\psid$ & $\omega_z$ (rad/s) & $R_h$ (N) & $R_h/W$ & $E$ (J)\\
+\midrule
+$30^\circ$ & lenta & $0,019$ & $191,53$ & $0,024$ & $0,025$ & $1,181$\\
+ & rápida & $0,366$ & $248,30$ & $9,536$ & $9,721$ & $2,110$\\
+$45^\circ$ & lenta & $0,018$ & $190,95$ & $0,034$ & $0,035$ & $1,168$\\
+ & rápida & $0,453$ & $248,88$ & $20,624$ & $21,024$ & $2,419$\\
+$60^\circ$ & lenta & $0,018$ & $190,21$ & $0,041$ & $0,041$ & $1,151$\\
+ & rápida & $0,649$ & $249,62$ & $51,762$ & $52,765$ & $3,368$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Como funciona a validação numérica}
+
+A simulação resolve o movimento completo sem usar a equação~\ref{m:quad} nem os ângulos de Euler. Ela emprega eixos $1$, $2$ e $3$ solidários ao corpo, com o eixo $3$ sendo o de simetria. Esses eixos giram também com o \textit{spin}; não são os eixos $Oxyz$ da dedução.
+
+\paragraph{Equações de Euler.} A equação vetorial do relatório (equação~\ref*{rel-eq:eulercorpo}), em componentes nos eixos do corpo, é
+\begin{align}
+I'\dot{\omega}_1&=M_1-(I-I')\,\omega_2\omega_3,\\
+I'\dot{\omega}_2&=M_2+(I-I')\,\omega_1\omega_3,\\
+I\dot{\omega}_3&=M_3,
+\end{align}
+em que $M_1$, $M_2$ e $M_3$ são as componentes do momento do peso nos eixos do corpo.
+
+\paragraph{Orientação.} A orientação é representada por um quatérnio unitário $\vet{q}$, atualizado pela equação~\ref*{rel-eq:quat} do relatório. A partir dele obtém-se a matriz de rotação $\vet{R}$ e, com ela, o momento do peso em eixos do corpo:
+\begin{equation}
+\vet{M}=c\,\vet{e}_3\times\left(\vet{R}^{\mathsf{T}}\left(-W\vet{K}\right)\right),
+\end{equation}
+em que $\vet{e}_3$ é o vetor unitário do eixo $3$.
+
+\paragraph{Condições iniciais.} O pião parte com inclinação $\theta_0$ e velocidade angular $\phid_0\vet{K}+\psid\vet{k}$, em que $\phid_0$ é a raiz que se deseja testar.
+
+\paragraph{Integração.} O estado $\vet{s}=(\vet{q},\vomega)$ avança no tempo pelo método de Runge--Kutta de quarta ordem, com passo $h=2\times10^{-5}\un{s}$ e duração de $1\un{s}$, sendo $\vet{f}$ a função que dá $\dot{\vet{s}}$:
+\begin{align}
+\vet{k}_1&=\vet{f}(\vet{s}_n),\quad
+\vet{k}_2=\vet{f}\left(\vet{s}_n+\tfrac{h}{2}\vet{k}_1\right),\quad
+\vet{k}_3=\vet{f}\left(\vet{s}_n+\tfrac{h}{2}\vet{k}_2\right),\quad
+\vet{k}_4=\vet{f}\left(\vet{s}_n+h\vet{k}_3\right),\\
+\vet{s}_{n+1}&=\vet{s}_n+\tfrac{h}{6}\left(\vet{k}_1+2\vet{k}_2+2\vet{k}_3+\vet{k}_4\right).
+\end{align}
+Os vetores $\vet{k}_i$ acima são os estágios do método, sem relação com o unitário $\vet{k}$. A cada passo, $\vet{q}$ é renormalizado.
+
+\paragraph{Leitura dos resultados.} O eixo de simetria no espaço é a terceira coluna de $\vet{R}$, com componentes $(\seno\theta\seno\phi,\,-\seno\theta\cos\phi,\,\cos\theta)$. Dele se extraem $\theta$ e $\phi$, e a taxa de precessão é o coeficiente angular da reta ajustada a $\phi(t)$. A Tabela~\ref{m:tab:val} compara os valores obtidos com as raízes analíticas.
+
+\begin{table}[H]
+\centering\small
+\caption{Comparação entre as raízes analíticas e a integração numérica.}
+\label{m:tab:val}
+\begin{tabular}{cccc}
+\toprule
+$\theta$ & Solução & $\phid$ analítica (rad/s) & $\phid$ numérica (rad/s)\\
+\midrule
+$30^\circ$ & lenta & $3,4996$ & $3,4996$\\
+           & rápida & $69,0524$ & $69,0524$\\
+$45^\circ$ & lenta & $3,4660$ & $3,4660$\\
+           & rápida & $85,3917$ & $85,3917$\\
+$60^\circ$ & lenta & $3,4241$ & $3,4241$\\
+           & rápida & $122,2396$ & $122,2396$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

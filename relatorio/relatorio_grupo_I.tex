@@ -35,6 +35,14 @@
 \usepackage{setspace}
 \usepackage{indentfirst}
 \usepackage[font=small,labelfont=bf,labelsep=endash]{caption}
+\usepackage{listings}
+\lstset{language=Python,basicstyle=\ttfamily\scriptsize,columns=fullflexible,keepspaces=true,
+  breaklines=true,breakatwhitespace=false,showstringspaces=false,
+  numbers=left,numberstyle=\tiny\color{tinta2},numbersep=6pt,
+  keywordstyle=\color{azul!75!black},commentstyle=\color{tinta2}\itshape,stringstyle=\color{laranja!70!black},
+  frame=lines,framerule=0.3pt,
+  literate={á}{{\'a}}1 {â}{{\^a}}1 {ã}{{\~a}}1 {Â}{{\^A}}1 {Ã}{{\~A}}1 {ç}{{\c{c}}}1 {é}{{\'e}}1
+           {í}{{\'i}}1 {ó}{{\'o}}1 {õ}{{\~o}}1 {ú}{{\'u}}1 {°}{{\textdegree}}1 {²}{{\textsuperscript{2}}}1}
 \usepackage[hidelinks]{hyperref}
 
 \graphicspath{{figuras/}}
@@ -126,18 +134,16 @@ $\vet{i},\ \vet{j},\ \vet{k}$ & vetores unitários dos eixos $x$, $y$ e $z$ & --
 $\vet{K}$ & vetor unitário do eixo vertical fixo $Z$ & --\\
 $k$ & raio de giração em relação ao eixo de simetria & m\\
 $k'$ & raio de giração em relação ao eixo transversal por $O$ & m\\
-$L$ & função lagrangiana do pião & J\\
 $\vet{M}_O$ & momento resultante em relação a $O$ & N$\cdot$m\\
 $m$ & massa do pião & kg\\
 $\vet{N}$ & componente vertical da reação em $O$ & N\\
-$p_\phi,\,p_\psi$ & quantidades de movimento generalizadas conservadas & kg$\cdot$m$^2$/s\\
 $\vet{q}$ & quatérnio unitário de orientação do pião & --\\
 $\vet{R}_h$ & componente horizontal da reação em $O$ & N\\
 $\vet{r}_G$ & vetor posição de $G$ em relação a $O$ & m\\
 $t$ & tempo & s\\
 $\vet{W}$ & peso do pião & N\\
 $\eps$ & parâmetro adimensional $aWc/b^2$ & --\\
-$\theta$ & ângulo de nutação (entre os eixos $Z$ e $z$) & rad\\
+$\theta$ & ângulo de inclinação (entre os eixos $Z$ e $z$) & rad\\
 $\theta_0,\ \phid_0$ & valores iniciais de $\theta$ e $\phid$ nas simulações & rad; rad/s\\
 $\phi,\ \phid$ & ângulo e taxa de precessão & rad; rad/s\\
 $\phid_1,\ \phid_2$ & taxas de precessão permanente lenta e rápida & rad/s\\
@@ -146,7 +152,6 @@ $\psi,\ \psid$ & ângulo e taxa de rotação própria (\textit{spin}) & rad; rad
 $\psid_{\mathrm{min}}$ & menor \textit{spin} que admite precessão permanente & rad/s\\
 $\vomega$ & velocidade angular do pião & rad/s\\
 $\omega_z$ & componente de $\vomega$ segundo o eixo de simetria & rad/s\\
-$\omega_{z,\mathrm{min}}$ & menor valor de $\omega_z$ que estabiliza o pião na vertical & rad/s\\
 $\vOmega$ & velocidade angular do referencial $Oxyz$ & rad/s\\
 \bottomrule
 \end{tabular}
@@ -211,7 +216,7 @@ Na Figura~\ref{fig:dcl}(a), o eixo $z$ coincide com o eixo de simetria, o eixo $
 
 \subsection{Cinemática e propriedades de inércia}
 
-Segue-se a formulação de Beer, Johnston e Cornwell \cite{beer}. A orientação do pião é descrita pelos ângulos de Euler: precessão $\phi$, nutação $\theta$ e rotação própria $\psi$. Na precessão permanente, $\theta$, $\phid$ e $\psid$ são constantes. A velocidade angular é a soma vetorial mostrada na Figura~\ref{fig:vetores}(a) e expressa pela equação~\ref{eq:omega}.
+Segue-se a formulação de Beer, Johnston e Cornwell \cite{beer}. A orientação do pião é descrita pelos ângulos de Euler: precessão $\phi$, inclinação $\theta$ e rotação própria $\psi$. Na precessão permanente, $\theta$, $\phid$ e $\psid$ são constantes. A velocidade angular é a soma vetorial mostrada na Figura~\ref{fig:vetores}(a) e expressa pela equação~\ref{eq:omega}.
 \begin{equation}
 \vomega = \phid\,\vet{K} + \psid\,\vet{k}
 \label{eq:omega}
@@ -226,7 +231,7 @@ A Figura~\ref{fig:vetores} apresenta essas grandezas em perspectiva, com a mesma
 \label{fig:vetores}
 \end{figure}
 
-Projetando $\vet{K}$ sobre os eixos do referencial, obtém-se a equação~\ref{eq:K}.
+O vetor $\vet{K}$ pertence ao plano $xz$. Como o ângulo entre $\vet{K}$ e $\vet{k}$ é $\theta$ e o ângulo entre $\vet{K}$ e $\vet{i}$ é $90^\circ+\theta$, tem-se $\vet{K}\cdot\vet{k}=\cos\theta$ e $\vet{K}\cdot\vet{i}=\cos(90^\circ+\theta)=-\seno\theta$. Projetando $\vet{K}$ sobre os eixos do referencial, obtém-se a equação~\ref{eq:K}.
 \begin{equation}
 \vet{K} = -\seno\theta\,\vet{i} + \cos\theta\,\vet{k}
 \label{eq:K}
@@ -250,9 +255,17 @@ I' = mk'^2 = 2,50\times10^{-4}\un{kg\cdot m^2}
 
 \subsection{Equação geral da precessão permanente}
 
-Como os eixos $x$, $y$ e $z$ são principais, o tensor de inércia $\vet{I}_O$ é diagonal, com elementos $I'$, $I'$ e $I$. A quantidade de movimento angular em relação a $O$, representada na Figura~\ref{fig:vetores}(b), resulta na equação~\ref{eq:H}.
+Como os eixos $x$, $y$ e $z$ são principais, o tensor de inércia $\vet{I}_O$ é diagonal, com elementos $I'$, $I'$ e $I$. Como $\omega_y=0$, o produto do tensor pela velocidade angular assume a forma matricial da equação~\ref{eq:Hmatriz}.
 \begin{equation}
-\vet{H}_O = \vet{I}_O\cdot\vomega = -I'\phid\seno\theta\,\vet{i} + I\omega_z\,\vet{k}
+\vet{H}_O = \vet{I}_O\cdot\vomega =
+\begin{pmatrix}I'&0&0\\0&I'&0\\0&0&I\end{pmatrix}
+\begin{pmatrix}-\phid\seno\theta\\0\\\omega_z\end{pmatrix}
+\label{eq:Hmatriz}
+\end{equation}
+
+A quantidade de movimento angular em relação a $O$, representada na Figura~\ref{fig:vetores}(b), resulta na equação~\ref{eq:H}.
+\begin{equation}
+\vet{H}_O = -I'\phid\seno\theta\,\vet{i} + I\omega_z\,\vet{k}
 \label{eq:H}
 \end{equation}
 
@@ -268,15 +281,32 @@ Na precessão permanente, as componentes de $\vet{H}_O$ na equação~\ref{eq:H} 
 \label{eq:eulerM}
 \end{equation}
 
-Efetuando o produto vetorial com as equações~\ref{eq:H} e~\ref{eq:Omega}, chega-se à equação~\ref{eq:OmegaH}.
+O produto vetorial das equações~\ref{eq:Omega} e~\ref{eq:H} pode ser escrito na forma de determinante, conforme a equação~\ref{eq:det}.
+\begin{equation}
+\vOmega\times\vet{H}_O=
+\begin{vmatrix}
+\vet{i}&\vet{j}&\vet{k}\\
+-\phid\seno\theta&0&\phid\cos\theta\\
+-I'\phid\seno\theta&0&I\omega_z
+\end{vmatrix}
+\label{eq:det}
+\end{equation}
+
+Como a coluna central da equação~\ref{eq:det} é nula, as componentes segundo $\vet{i}$ e $\vet{k}$ se anulam. Resta apenas a componente segundo $\vet{j}$, que entra com o sinal negativo do cofator, como mostra a equação~\ref{eq:cofator}.
+\begin{equation}
+\vOmega\times\vet{H}_O=-\vet{j}\left[\left(-\phid\seno\theta\right)\left(I\omega_z\right)-\left(\phid\cos\theta\right)\left(-I'\phid\seno\theta\right)\right]
+\label{eq:cofator}
+\end{equation}
+
+Colocando $\phid\seno\theta$ em evidência na equação~\ref{eq:cofator}, chega-se à equação~\ref{eq:OmegaH}.
 \begin{equation}
 \vOmega\times\vet{H}_O = \left(I\omega_z - I'\phid\cos\theta\right)\phid\seno\theta\,\vet{j}
 \label{eq:OmegaH}
 \end{equation}
 
-O momento externo deve-se somente ao peso, $\vet{W}=-mg\,\vet{K}$, aplicado em $\vet{r}_G=c\,\vet{k}$. Utilizando a equação~\ref{eq:K}, obtém-se a equação~\ref{eq:M}, em que $W=mg$. O resultado aponta segundo $\vet{j}$, isto é, perpendicularmente ao plano $Zz$ e no sentido em que $G$ avança na Figura~\ref{fig:dcl}(a): é por esse motivo que o eixo se desloca lateralmente, em vez de tombar no sentido em que o peso tenderia a derrubá-lo.
+O momento externo deve-se somente ao peso, $\vet{W}=-mg\,\vet{K}$, aplicado em $\vet{r}_G=c\,\vet{k}$. Utilizando a equação~\ref{eq:K}, tem-se $\vet{W}=W\seno\theta\,\vet{i}-W\cos\theta\,\vet{k}$, em que $W=mg$. Como $\vet{k}\times\vet{k}=\vet{0}$ e $\vet{k}\times\vet{i}=\vet{j}$, obtém-se a equação~\ref{eq:M}. O resultado aponta segundo $\vet{j}$, isto é, perpendicularmente ao plano $Zz$ e no sentido em que $G$ avança na Figura~\ref{fig:dcl}(a): é por esse motivo que o eixo se desloca lateralmente, em vez de tombar no sentido em que o peso tenderia a derrubá-lo.
 \begin{equation}
-\sum\vet{M}_O = \vet{r}_G\times\vet{W} = Wc\seno\theta\,\vet{j}
+\sum\vet{M}_O = c\,\vet{k}\times\left(W\seno\theta\,\vet{i}-W\cos\theta\,\vet{k}\right) = Wc\seno\theta\,\vet{j}
 \label{eq:M}
 \end{equation}
 
@@ -286,13 +316,19 @@ Igualando as equações~\ref{eq:OmegaH} e~\ref{eq:M} e dividindo por $\seno\thet
 \label{eq:condicao}
 \end{equation}
 
-Substituindo $\omega_z$ segundo a equação~\ref{eq:compomega} na equação~\ref{eq:condicao} e reorganizando os termos, obtém-se a equação de segundo grau em $\phid$ apresentada na equação~\ref{eq:quad}.
+Substituindo $\omega_z$ segundo a equação~\ref{eq:compomega} na equação~\ref{eq:condicao} e aplicando a propriedade distributiva, obtém-se a equação~\ref{eq:distrib}.
+\begin{equation}
+I\psid\,\phid+I\cos\theta\,\phid^{\,2}-I'\cos\theta\,\phid^{\,2}=Wc
+\label{eq:distrib}
+\end{equation}
+
+Agrupando na equação~\ref{eq:distrib} os termos em $\phid^{\,2}$ e passando todos os termos para o mesmo membro, obtém-se a equação de segundo grau em $\phid$ apresentada na equação~\ref{eq:quad}.
 \begin{equation}
 (I'-I)\cos\theta\;\phid^{\,2} - I\psid\,\phid + Wc = 0
 \label{eq:quad}
 \end{equation}
 
-Dividindo a equação~\ref{eq:quad} pela massa, chega-se à equação~\ref{eq:quadk}. Esta mostra um resultado notável: as taxas de precessão dependem apenas da geometria do pião e de $g$, e não de sua massa.
+Como $I=mk^2$, $I'=mk'^2$ e $W=mg$, todos os coeficientes da equação~\ref{eq:quad} contêm o fator $m$. Dividindo-a pela massa, chega-se à equação~\ref{eq:quadk}. Esta mostra um resultado notável: as taxas de precessão dependem apenas da geometria do pião e de $g$, e não de sua massa.
 \begin{equation}
 (k'^2-k^2)\cos\theta\;\phid^{\,2} - k^2\psid\,\phid + gc = 0
 \label{eq:quadk}
@@ -300,7 +336,7 @@ Dividindo a equação~\ref{eq:quad} pela massa, chega-se à equação~\ref{eq:qu
 
 \subsection{Item (a): taxas de precessão permanente}
 
-Definindo $a=(I'-I)\cos\theta$ e $b=I\psid$, as raízes da equação~\ref{eq:quad} são as da equação~\ref{eq:raizes}, onde $\phid_1$ é a precessão lenta e $\phid_2$, a rápida.
+Definindo $a=(I'-I)\cos\theta$ e $b=I\psid$, a equação~\ref{eq:quad} assume a forma $a\phid^{\,2}-b\phid+Wc=0$, e a fórmula de Bhaskara fornece as raízes da equação~\ref{eq:raizes}, onde $\phid_1$ é a precessão lenta e $\phid_2$, a rápida.
 \begin{equation}
 \phid_{1} = \frac{b-\sqrt{b^2-4aWc}}{2a},
 \qquad
@@ -308,7 +344,7 @@ Definindo $a=(I'-I)\cos\theta$ e $b=I\psid$, as raízes da equação~\ref{eq:qua
 \label{eq:raizes}
 \end{equation}
 
-Os coeficientes independentes de $\theta$ valem os indicados na equação~\ref{eq:coef}.
+O \textit{spin} convertido para o Sistema Internacional é $\psid=1800\cdot2\pi/60=188,50\un{rad/s}$. Com $W=mg=0,981\un{N}$, os coeficientes independentes de $\theta$ valem os indicados na equação~\ref{eq:coef}.
 \begin{equation}
 I'-I = 1,875\times10^{-4}\un{kg\cdot m^2},
 \quad
@@ -318,13 +354,21 @@ Wc = 0,03924\un{N\cdot m}
 \label{eq:coef}
 \end{equation}
 
-Para $\theta=30^\circ$, tem-se $a=1,6238\times10^{-4}\un{kg\cdot m^2}$, e o radical da equação~\ref{eq:raizes} assume o valor da equação~\ref{eq:radical}.
+Para $\theta=30^\circ$, tem-se $a=1,875\times10^{-4}\cdot\cos30^\circ=1,6238\times10^{-4}\un{kg\cdot m^2}$. Os valores $b^2=1,3879\times10^{-4}$ e $4aWc=2,5487\times10^{-5}$, em $\mathrm{kg^2\cdot m^4/s^2}$, compõem o radical da equação~\ref{eq:raizes} assume o valor da equação~\ref{eq:radical}.
 \begin{equation}
 \sqrt{b^2-4aWc}=\sqrt{1,3879\times10^{-4}-2,5487\times10^{-5}}=0,010644\un{kg\cdot m^2/s}
 \label{eq:radical}
 \end{equation}
 
-Com esse valor, a equação~\ref{eq:raizes} conduz às taxas da equação~\ref{eq:num30}.
+Com esse valor e $2a=3,2476\times10^{-4}\un{kg\cdot m^2}$, a equação~\ref{eq:raizes} assume a forma numérica da equação~\ref{eq:numconta}.
+\begin{equation}
+\phid_1=\frac{0,011781-0,010644}{3,2476\times10^{-4}},
+\qquad
+\phid_2=\frac{0,011781+0,010644}{3,2476\times10^{-4}}
+\label{eq:numconta}
+\end{equation}
+
+A equação~\ref{eq:numconta} conduz às taxas da equação~\ref{eq:num30}, convertidas para rpm pelo fator $60/(2\pi)$.
 \begin{equation}
 \phid_1 = 3,50\un{rad/s} = 33,4\un{rpm},
 \qquad
@@ -362,7 +406,7 @@ A Figura~\ref{fig:taxas} apresenta as duas soluções em função de $\theta$. N
 \label{fig:taxas}
 \end{figure}
 
-As soluções reais existem somente se o discriminante da equação~\ref{eq:raizes} for não negativo. Essa exigência define o \textit{spin} mínimo da equação~\ref{eq:psimin}.
+As soluções reais existem somente se o discriminante da equação~\ref{eq:raizes} for não negativo, isto é, se $(I\psid)^2\geq4(I'-I)\cos\theta\,Wc$. Essa exigência define o \textit{spin} mínimo da equação~\ref{eq:psimin}.
 \begin{equation}
 \psid \geq \psid_{\mathrm{min}} = \frac{2}{I}\sqrt{(I'-I)\cos\theta\;Wc}
 \label{eq:psimin}
@@ -372,13 +416,19 @@ Para $\theta=30^\circ$, a equação~\ref{eq:psimin} fornece $\psid_{\mathrm{min}
 
 \subsection{Item (b): condição para spin muito elevado}
 
-Quando $\psid\gg\phid$, a equação~\ref{eq:compomega} fornece $\omega_z\approx\psid$. Além disso, o termo $I'\phid\cos\theta$ da equação~\ref{eq:condicao} torna-se desprezível em comparação com $I\psid$, e a condição de precessão permanente reduz-se à equação~\ref{eq:aprox}.
+Colocando $\phid$ em evidência na equação~\ref{eq:quad}, a condição de precessão permanente escreve-se como na equação~\ref{eq:bafi}.
+\begin{equation}
+\phid\left(b-a\phid\right)=Wc
+\label{eq:bafi}
+\end{equation}
+
+Quando $\psid\gg\phid$, a equação~\ref{eq:compomega} fornece $\omega_z\approx\psid$, e o termo $a\phid=(I'-I)\phid\cos\theta$ da equação~\ref{eq:bafi} torna-se desprezível em comparação com $b=I\psid$. A condição de precessão permanente reduz-se, então, à equação~\ref{eq:aprox}.
 \begin{equation}
 \phid_a \approx \frac{Wc}{I\psid} = \frac{mgc}{I\psid}
 \label{eq:aprox}
 \end{equation}
 
-A equação~\ref{eq:aprox} é a resposta do item (b). Fisicamente, ela equivale a admitir $\vet{H}_O\approx I\psid\,\vet{k}$ na equação~\ref{eq:eulerM}: o momento do peso gira o vetor $\vet{H}_O$ à taxa $\phid$, o que nos leva à equação~\ref{eq:OmegaH_approx}:
+A equação~\ref{eq:aprox} é a resposta do item (b). Fisicamente, ela equivale a admitir $\vet{H}_O\approx I\psid\,\vet{k}$ na equação~\ref{eq:eulerM}: o momento do peso gira o vetor $\vet{H}_O$ à taxa $\phid$, o que conduz à equação~\ref{eq:OmegaH_approx}:
 
 \begin{equation}
 Wc\seno\theta=\sum\vet{M}_O = \vOmega\times\vet{H}_O \approx \phid\,I\psid\seno\theta
@@ -407,27 +457,29 @@ e = \frac{3,331-3,500}{3,500}\times100\% = -4,82\%
 \label{eq:erro30}
 \end{equation}
 
-Pode-se obter uma expressão exata para o erro. Como $\phid_1$ é raiz da equação~\ref{eq:quad}, ela a satisfaz; isolando o termo linear em $\phid$, tem-se
+Pode-se obter uma expressão exata para o erro. Como $\phid_1$ é raiz da equação~\ref{eq:quad}, ela a satisfaz. Isolando o termo linear em $\phid$, tem-se a equação~\ref{eq:erroinic}.
 \begin{equation}
 b\,\phid_1 = Wc + a\,\phid_1^{\,2}.
 \label{eq:erroinic}
 \end{equation}
-Dividindo ambos os membros por $b\,\phid_1$, resulta
-\begin{equation*}
-1 = \frac{Wc}{b\,\phid_1} + \frac{a\,\phid_1}{b}.
-\end{equation*}
-Pela equação~\ref{eq:aprox}, $\phid_a = Wc/b$, de modo que o primeiro termo do segundo membro é a razão $\phid_a/\phid_1$. Como, pela equação~\ref{eq:erro}, $e/100\% = \phid_a/\phid_1 - 1$, obtém-se a equação~\ref{eq:errofis}, que revela a origem do erro: ele é precisamente a parcela $a\,\phid_1^{\,2}$ desprezada na dedução da equação~\ref{eq:aprox}, na qual a equação~\ref{eq:quad} foi reduzida a $-b\,\phid + Wc = 0$.
+Dividindo ambos os membros por $b\,\phid_1$, resulta a equação~\ref{eq:erromembros}.
+\begin{equation}
+1 = \frac{Wc}{b\,\phid_1} + \frac{a\,\phid_1}{b}
+\label{eq:erromembros}
+\end{equation}
+Pela equação~\ref{eq:aprox}, $\phid_a = Wc/b$, de modo que o primeiro termo do segundo membro da equação~\ref{eq:erromembros} é a razão $\phid_a/\phid_1$. Como, pela equação~\ref{eq:erro}, $e/100\% = \phid_a/\phid_1 - 1$, obtém-se a equação~\ref{eq:errofis}, que revela a origem do erro: ele é precisamente a parcela $a\,\phid_1^{\,2}$ desprezada na dedução da equação~\ref{eq:aprox}, na qual a equação~\ref{eq:quad} foi reduzida a $-b\,\phid + Wc = 0$.
 \begin{equation}
 \frac{e}{100\%} = -\frac{a\,\phid_1}{b} = -\frac{(I'-I)\cos\theta\;\phid_1}{I\psid}
 \label{eq:errofis}
 \end{equation}
 
-A equação~\ref{eq:errofis} ainda depende de $\phid_1$. Para eliminá-lo, substitui-se a raiz lenta da equação~\ref{eq:raizes}:
-\begin{equation*}
+A equação~\ref{eq:errofis} ainda depende de $\phid_1$. Para eliminá-lo, substitui-se a raiz lenta da equação~\ref{eq:raizes}, o que conduz à equação~\ref{eq:erroraiz}.
+\begin{equation}
 \frac{a\,\phid_1}{b}
 = \frac{b-\sqrt{b^2-4aWc}}{2b}
-= \frac{1-\sqrt{1-4aWc/b^2}}{2}.
-\end{equation*}
+= \frac{1-\sqrt{1-4aWc/b^2}}{2}
+\label{eq:erroraiz}
+\end{equation}
 Nessa forma, a razão $aWc/b^2$ aparece naturalmente. Definindo-a como o parâmetro adimensional $\eps=aWc/b^2$ e substituindo $a$ e $b$, o erro passa a ser dado em forma fechada pela equação~\ref{eq:errofechado}.
 \begin{equation}
 \frac{e}{100\%} = \frac{\sqrt{1-4\eps}-1}{2} \approx -\eps,
@@ -435,7 +487,7 @@ Nessa forma, a razão $aWc/b^2$ aparece naturalmente. Definindo-a como o parâme
 \eps = \frac{(I'-I)\cos\theta\;Wc}{\left(I\psid\right)^2}
 \label{eq:errofechado}
 \end{equation}
-A aproximação indicada na equação~\ref{eq:errofechado} decorre da expansão em série da raiz para $\eps \ll 1$,
+A aproximação indicada na equação~\ref{eq:errofechado} decorre da expansão em série da raiz para $\eps \ll 1$, dada pela equação~\ref{eq:erroserie},
 \begin{equation}
 \sqrt{1-4\eps} \approx 1 - 2\eps - 2\eps^2 - \cdots
 \quad\Rightarrow\quad
@@ -487,7 +539,7 @@ A Figura~\ref{fig:spin} amplia a análise para outros valores de \textit{spin}. 
 
 \subsection{Aprofundamento: reações no apoio e energia}
 
-Em precessão permanente, $G$ descreve uma circunferência horizontal de raio $c\seno\theta$ com velocidade angular $\phid$. A segunda lei de Newton fornece as reações em $O$ indicadas na Figura~\ref{fig:dcl}(b), cujas intensidades são dadas pela equação~\ref{eq:reacoes}.
+Em precessão permanente, $G$ descreve uma circunferência horizontal de raio $c\seno\theta$ com velocidade angular $\phid$; sua aceleração é, portanto, centrípeta, de módulo $(c\seno\theta)\phid^{\,2}$, e não há aceleração vertical. A segunda lei de Newton fornece as reações em $O$ indicadas na Figura~\ref{fig:dcl}(b), cujas intensidades são dadas pela equação~\ref{eq:reacoes}.
 \begin{equation}
 N = W,
 \qquad
@@ -495,10 +547,24 @@ R_h = mc\seno\theta\;\phid^{\,2}
 \label{eq:reacoes}
 \end{equation}
 
-A energia mecânica do pião, com referência de energia potencial na altura de $O$, é expressa pela equação~\ref{eq:energia}.
+Para $\theta=30^\circ$, tem-se $mc\seno\theta=0,0020\un{kg\cdot m}$, e a equação~\ref{eq:reacoes} fornece os valores da equação~\ref{eq:rhnum} para as precessões lenta e rápida.
+\begin{equation}
+R_{h,1}=0,0020\cdot(3,4996)^2=0,0245\un{N},
+\qquad
+R_{h,2}=0,0020\cdot(69,052)^2=9,54\un{N}
+\label{eq:rhnum}
+\end{equation}
+
+A energia mecânica do pião, com referência de energia potencial na altura de $O$, é expressa pela equação~\ref{eq:energia}, em que os dois primeiros termos correspondem às parcelas transversal e axial da energia cinética.
 \begin{equation}
 E = \frac{1}{2}I'\phid^{\,2}\seno^2\theta + \frac{1}{2}I\omega_z^2 + Wc\cos\theta
 \label{eq:energia}
+\end{equation}
+
+Para a precessão lenta em $\theta=30^\circ$, com $\omega_z=188,50+3,4996\cos30^\circ=191,53\un{rad/s}$, a equação~\ref{eq:energia} resulta na equação~\ref{eq:enum}.
+\begin{equation}
+E_1=3,8\times10^{-4}+1,1463+0,0340=1,181\un{J}
+\label{eq:enum}
 \end{equation}
 
 \subsection{Validação numérica}
@@ -513,7 +579,7 @@ Para verificar os resultados por um caminho independente, as equações do movim
 \label{eq:quat}
 \end{equation}
 
-As equações~\ref{eq:eulercorpo} e~\ref{eq:quat} foram integradas com o método de Runge--Kutta de quarta ordem, com passo de $2\times10^{-5}\un{s}$ e duração de $1\un{s}$, em um programa escrito em Python. Os valores de $\theta$ e $\phi$ foram extraídos da orientação calculada do eixo de simetria.
+As equações~\ref{eq:eulercorpo} e~\ref{eq:quat} foram integradas com o método de Runge--Kutta de quarta ordem, com passo de $2\times10^{-5}\un{s}$ e duração de $1\un{s}$, em um programa escrito em Python, reproduzido no Apêndice~A. Os valores de $\theta$ e $\phi$ foram extraídos da orientação calculada do eixo de simetria.
 
 % ------------------------------------------------------------- 3
 \section{Resultados}
@@ -566,7 +632,7 @@ O trabalho aplicou a dinâmica tridimensional do corpo rígido à precessão per
 
 Para $\psid=1800\un{rpm}$, a taxa lenta permanece próxima de $3,5\un{rad/s}$ em toda a faixa, enquanto a rápida varia de $69$ a $122\un{rad/s}$. A condição simplificada $\phid_a\approx Wc/(I\psid)$ apresentou erro entre $2,72\%$ e $4,82\%$ em relação à raiz lenta, sempre por falta. Tal erro é aceitável para estimativas de engenharia e diminui rapidamente com o aumento do \textit{spin}, aproximadamente com o inverso de seu quadrado.
 
-O aprofundamento mostrou que as duas soluções existem somente acima de um \textit{spin} mínimo. Mostrou também por que somente a precessão lenta é observada em um pião comum: a rápida exigiria forças horizontais muito superiores ao peso e uma energia consideravelmente maior. A integração numérica independente reproduziu as taxas de precessão previstas, com $\theta$ constante e energia conservada, o que confere confiança à solução.
+O aprofundamento mostrou que as duas soluções existem somente acima de um \textit{spin} mínimo. Mostrou também por que somente a precessão lenta é observada em um pião comum: a rápida exigiria forças horizontais muito superiores ao peso e uma energia consideravelmente maior. A integração numérica independente reproduziu as taxas de precessão previstas, com $\theta$ constante e energia conservada, conforme os gráficos do Apêndice~B, o que confere confiança à solução.
 
 O modelo tem limitações que convém registrar: o atrito é desprezado, de modo que o decaimento do \textit{spin} não é representado, e o ponto de apoio é considerado perfeitamente fixo. Em um pião real, a ponta tem dimensão finita e pode deslizar. Esses efeitos constituem extensões naturais do estudo.
 
@@ -578,8 +644,56 @@ O modelo tem limitações que convém registrar: o atrito é desprezado, de modo
 \bibitem{beer}
 BEER, F. P.; JOHNSTON JR., E. R.; CORNWELL, P. J. \textit{Mecânica Vetorial para Engenheiros: Dinâmica}. 9. ed. Porto Alegre: AMGH, 2012.
 
-\bibitem{goldstein}
-GOLDSTEIN, H.; POOLE, C.; SAFKO, J. \textit{Classical Mechanics}. 3. ed. San Francisco: Addison-Wesley, 2002.
 \end{thebibliography}
+
+% ------------------------------------------------------------- apêndices
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Apêndice A -- Código da simulação e dos gráficos}
+\section*{Apêndice A -- Código da simulação e dos gráficos}
+
+Este apêndice reproduz integralmente o programa em Python utilizado no trabalho. A Tabela~\ref{tab:funcoes} indica a finalidade das principais funções.
+
+\begin{table}[H]
+\centering
+\caption{Principais funções do programa.}
+\label{tab:funcoes}
+\begin{tabular}{ll}
+\toprule
+\textbf{Função} & \textbf{Finalidade}\\
+\midrule
+\texttt{raizes} & raízes da equação de precessão permanente\\
+\texttt{erro\_pct} e \texttt{psi\_min} & erro da aproximação e \textit{spin} mínimo\\
+\texttt{deriv} & equações de Euler e cinemática de quatérnios\\
+\texttt{\_integra} & integração pelo método de Runge--Kutta\\
+\texttt{simula} & execução da integração e armazenamento dos resultados\\
+\texttt{fig\_taxas} & Figura~\ref{fig:taxas}\\
+\texttt{fig\_erro} & Figura~\ref{fig:erro}\\
+\texttt{fig\_spin} & Figura~\ref{fig:spin}\\
+\texttt{fig\_simulacao} & Figura~\ref{fig:simulacao}\\
+\texttt{fig\_apendice} & Figura~\ref{fig:apendice}\\
+\texttt{relatorio\_numerico} & impressão dos valores utilizados no relatório\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begingroup
+\setstretch{1.0}
+\lstinputlisting{scripts/calculos_e_graficos.py}
+\endgroup
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Apêndice B -- Gráficos da simulação}
+\section*{Apêndice B -- Gráficos da simulação}
+
+A Figura~\ref{fig:apendice} apresenta o resultado da integração numérica para $\theta_0=30^\circ$ e $\psid=1800\un{rpm}$, partindo de cada uma das raízes. Os painéis (a) e (b) mostram que o ângulo de precessão $\phi$ cresce linearmente com o tempo, a taxas iguais às raízes da equação~\ref{eq:raizes}. O painel (c) mostra que o ângulo $\theta$ se mantém constante nas duas soluções, cujas curvas se sobrepõem. O painel (d), em escala logarítmica, mostra que a variação relativa da energia permanece próxima da precisão numérica do computador, o que indica que a integração é confiável.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{simulacao_apendice.pdf}
+\caption[Resultados da simulação para as duas raízes]{Resultados da simulação para $\theta_0=30^\circ$ e $\psid=1800\un{rpm}$: (a) ângulo de precessão na raiz lenta; (b) ângulo de precessão na raiz rápida; (c) ângulo de inclinação; (d) variação relativa da energia.}
+\label{fig:apendice}
+\end{figure}
 
 \end{document}
