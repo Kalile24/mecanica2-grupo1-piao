@@ -87,6 +87,40 @@
   \note{[0:00 -- 0:30] Apresentar o grupo e o tema. Dizer em uma frase o objetivo: determinar a que taxas um pião inclinado pode precessar sem mudar de inclinação.}
 \end{frame}
 
+% ---------------------------------------------------------------- enunciado
+% Salve a imagem do enunciado como figuras/enunciado_grupo_I.png
+\begin{frame}[plain]
+  \begin{center}
+    \IfFileExists{figuras/enunciado_grupo_I.png}{%
+      \includegraphics[width=0.78\paperwidth,height=0.92\paperheight,keepaspectratio]{enunciado_grupo_I.png}%
+    }{%
+      \begin{minipage}{0.85\paperwidth}
+        \textbf{GRUPO I}\\[0.2cm]
+        \small
+        Um pião de 100 g é suportado no ponto fixo $O$. Os raios de giração do pião com respeito a seu eixo de simetria e a seu eixo transversal passando por $O$ são 25 mm e 50 mm, respectivamente. Sabendo que $c=40$ mm e que a taxa de rotação (\textit{spin}) em torno do eixo de simetria é 1800 rpm, determine:\\[0.1cm]
+        (a) as possíveis taxas de precessão permanentes para $\theta=30^\circ$ a $60^\circ$;\\
+        (b) a condição para a precessão permanente sabendo que $\psid\gg\phid$;\\
+        (c) o percentual do erro introduzido quando esta última relação for usada para aproximar a menor das duas taxas de precessão obtida no item (a).
+      \end{minipage}%
+    }
+  \end{center}
+  \note{Enunciado do trabalho, lido na íntegra. Destacar as três perguntas: (a) as duas taxas, (b) a condição para spin muito maior que a precessão, (c) o erro dessa aproximação.}
+\end{frame}
+
+% ---------------------------------------------------------------- vídeo
+% Coloque simulacao_piao.mp4 na mesma pasta do PDF.
+% Opcional: figuras/primeiro_quadro.png como miniatura clicável.
+\begin{frame}[plain]
+  \begin{center}
+    {\usebeamercolor[fg]{title}\Large\bfseries Simulação do pião}\\[0.5cm]
+    \IfFileExists{firstframe.png}{%
+      \href{run:precessao.mp4}{\includegraphics[width=0.6\textwidth]{firstframe.png}}\\[0.3cm]
+    }{}%
+    {\Large\href{run:precessao.mp4}{\beamerbutton{\textcolor{azulesc}{$\blacktriangleright$ Reproduzir vídeo}}}}
+  \end{center}
+  \note{Clicar na imagem ou no botão para abrir o vídeo no reprodutor externo. Abrir o vídeo antes da apresentação para conferir se o visualizador permite a execução.}
+\end{frame}
+
 % ---------------------------------------------------------------- 2
 \begin{frame}{Por que o pião não cai?}
   \begin{columns}[c]
@@ -494,3 +528,4 @@
 \end{frame}
 
 \end{document}
+'
