@@ -427,19 +427,7 @@
       Como $\eps\propto1/\psid^{\,2}$, dobrar o \textit{spin} reduz o erro a cerca de um quarto.}
     \end{column}
   \end{columns}
-  \note{[13:30 -- 15:00] Partir da equação do item (b) sem desprezar nada. A conta mostra que o erro não é um número solto: é o termo que foi jogado fora, dividido pelo que ficou. A expressão em epsilon deixa claro que o erro cai com o quadrado do spin, e isso é o que o próximo slide mostra.}
-\end{frame}
-
-% ---------------------------------------------------------------- 12
-\begin{frame}{Aprofundamento: influência do \textit{spin}}
-  \begin{center}
-    \includegraphics[width=0.64\linewidth]{efeito_spin_slide.pdf}
-  \end{center}
-  \begin{itemize}
-    \item Existe um \textit{spin} mínimo: $\displaystyle\psid_{\mathrm{min}}=\frac{2}{I}\sqrt{(I'-I)\cos\theta\;Wc}$, igual a $771\un{rpm}$ em $\theta=30^\circ$.
-    \item O erro decai aproximadamente com $1/\psid^{\,2}$; fica abaixo de $1\%$ perto de $4000\un{rpm}$ em $\theta=30^\circ$.
-  \end{itemize}
-  \note{[15:00 -- 16:00] Painel (a): abaixo do spin mínimo, a equação não tem raízes reais e não há precessão permanente; acima dele, as raízes se afastam. A linha pontilhada marca os 1800 rpm do problema. Painel (b): em escala logarítmica, a reta mostra o decaimento do erro.}
+  \note{[13:30 -- 15:00] Partir da equação do item (b) sem desprezar nada. A conta mostra que o erro não é um número solto: é o termo que foi jogado fora, dividido pelo que ficou. A expressão em epsilon deixa claro que o erro cai com o quadrado do spin.}
 \end{frame}
 
 % ---------------------------------------------------------------- 13
@@ -469,7 +457,7 @@
       \end{itemize}
     \end{column}
   \end{columns}
-  \note{[16:00 -- 17:30] As duas soluções são matematicamente válidas. A rápida só é viável com O realmente fixo, como admite o enunciado. Observação: o atrito é desprezado como dissipação e momento, mas a força horizontal em O é uma reação necessária, pois G descreve uma circunferência.}
+  \note{[15:00 -- 16:30] As duas soluções são matematicamente válidas. A rápida só é viável com O realmente fixo, como admite o enunciado. Observação: o atrito é desprezado como dissipação e momento, mas a força horizontal em O é uma reação necessária, pois G descreve uma circunferência.}
 \end{frame}
 
 % ---------------------------------------------------------------- 15
@@ -486,7 +474,7 @@
       \textbf{Inclinação:} $\theta$ constante, com variação $<10^{-8}$ graus.}
     \end{column}
   \end{columns}
-  \note{[17:30 -- 18:15] A simulação não usa a equação de segundo grau nem os ângulos de Euler; por isso é uma verificação independente. A reta mostra phi crescendo a taxa constante, com theta constante: é a precessão permanente prevista.}
+  \note{[16:30 -- 17:15] A simulação não usa a equação de segundo grau nem os ângulos de Euler; por isso é uma verificação independente. A reta mostra phi crescendo a taxa constante, com theta constante: é a precessão permanente prevista.}
 \end{frame}
 
 % ---------------------------------------------------------------- 16
@@ -496,12 +484,12 @@
     \item \textbf{(a)} Duas taxas: lenta de $3,50$ a $3,42\un{rad/s}$ e rápida de $69,1$ a $122,2\un{rad/s}$.
     \item \textbf{(b)} Para $\psid\gg\phid$: $\phid_a\approx Wc/(I\psid)=3,33\un{rad/s}$, independente de $\theta$.
     \item \textbf{(c)} Erro de $4,82\%$ a $2,72\%$, sempre por falta.
-    \item As duas soluções existem acima de um \textit{spin} mínimo, mas só a lenta é fisicamente acessível a um pião comum.
+    \item Só a solução lenta é fisicamente acessível a um pião comum.
     \item A integração numérica independente confirmou os resultados.
   \end{itemize}
   \vspace{0.3cm}
   {\small\textbf{Limitações do modelo:} não representa o decaimento do \textit{spin} por atrito nem o deslizamento da ponta.}
-  \note{[18:15 -- 19:15] Retomar a pergunta inicial: o pião não cai porque o momento do peso é perpendicular ao plano de queda. Dar as três respostas e citar as limitações. Sobra cerca de 1 minuto de margem.}
+  \note{[17:15 -- 18:15] Retomar a pergunta inicial: o pião não cai porque o momento do peso é perpendicular ao plano de queda. Dar as três respostas e citar as limitações. Sobra cerca de 2 minutos de margem.}
 \end{frame}
 
 % ---------------------------------------------------------------- 17
@@ -510,21 +498,7 @@
     {\usebeamercolor[fg]{title}\Huge\bfseries Perguntas?}\\[0.8cm]
     {\small BEER, F. P.; JOHNSTON JR., E. R.; CORNWELL, P. J. \textit{Mecânica Vetorial para Engenheiros: Dinâmica}. 9. ed. Porto Alegre: AMGH, 2012.}
   \end{center}
-  \note{Arguição: cerca de 5 minutos. Os slides seguintes são de apoio; use-os apenas se surgirem perguntas sobre esses pontos.}
-\end{frame}
-
-\appendix
-
-% ---------------------------------------------------------------- apoio
-\begin{frame}{Apoio: casos particulares}
-  \begin{block}{Inclinação acima de $90^\circ$}
-    Como $\phid_1\phid_2=Wc/a$ e $a<0$, as raízes têm sinais opostos: uma das precessões passa a ter sentido contrário ao do \textit{spin}.
-  \end{block}
-  \vspace{0.2cm}
-  \begin{block}{Massa}
-    A massa se cancela nas taxas e em $R_h/W=c\seno\theta\,\phid^{\,2}/g$.
-  \end{block}
-  \note{Usar se perguntarem sobre inclinações maiores ou sobre o efeito da massa.}
+  \note{Arguição: cerca de 5 minutos.}
 \end{frame}
 
 \end{document}

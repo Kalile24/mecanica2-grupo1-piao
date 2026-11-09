@@ -149,7 +149,6 @@ $\phi,\ \phid$ & ângulo e taxa de precessão & rad; rad/s\\
 $\phid_1,\ \phid_2$ & taxas de precessão permanente lenta e rápida & rad/s\\
 $\phid_a$ & taxa de precessão da aproximação de alta rotação & rad/s\\
 $\psi,\ \psid$ & ângulo e taxa de rotação própria (\textit{spin}) & rad; rad/s\\
-$\psid_{\mathrm{min}}$ & menor \textit{spin} que admite precessão permanente & rad/s\\
 $\vomega$ & velocidade angular do pião & rad/s\\
 $\omega_z$ & componente de $\vomega$ segundo o eixo de simetria & rad/s\\
 $\vOmega$ & velocidade angular do referencial $Oxyz$ & rad/s\\
@@ -167,7 +166,7 @@ Um pião em repouso, apoiado sobre a própria ponta, tomba imediatamente. Basta,
 
 O brinquedo esconde um princípio de grande alcance tecnológico. O mesmo fenômeno governa os giroscópios e as girobússolas empregados em sistemas de navegação inercial, a estabilização de projéteis por rotação e a orientação de satélites. Em escala astronômica, o eixo de rotação da Terra precessa de modo análogo sob a ação gravitacional do Sol e da Lua. Compreender o pião significa, portanto, compreender a base física desses sistemas.
 
-Este trabalho analisa a precessão permanente de um pião de massa e geometria conhecidas, conforme proposto ao Grupo I. Determinam-se as taxas de precessão possíveis para inclinações entre $30^\circ$ e $60^\circ$, deduz-se a condição simplificada válida para rotação muito rápida e quantifica-se o erro cometido ao utilizá-la. Como aprofundamento, investigam-se a existência das soluções, as reações no apoio e a razão pela qual apenas uma das duas soluções é observada na prática. Os resultados são verificados por uma integração numérica independente das equações do movimento.
+Este trabalho analisa a precessão permanente de um pião de massa e geometria conhecidas, conforme proposto ao Grupo I. Determinam-se as taxas de precessão possíveis para inclinações entre $30^\circ$ e $60^\circ$, deduz-se a condição simplificada válida para rotação muito rápida e quantifica-se o erro cometido ao utilizá-la. Como aprofundamento, investigam-se as reações no apoio e a razão pela qual apenas uma das duas soluções é observada na prática. Os resultados são verificados por uma integração numérica independente das equações do movimento.
 
 % ------------------------------------------------------------- 2
 \section{Desenvolvimento}
@@ -406,14 +405,6 @@ A Figura~\ref{fig:taxas} apresenta as duas soluções em função de $\theta$. N
 \label{fig:taxas}
 \end{figure}
 
-As soluções reais existem somente se o discriminante da equação~\ref{eq:raizes} for não negativo, isto é, se $(I\psid)^2\geq4(I'-I)\cos\theta\,Wc$. Essa exigência define o \textit{spin} mínimo da equação~\ref{eq:psimin}.
-\begin{equation}
-\psid \geq \psid_{\mathrm{min}} = \frac{2}{I}\sqrt{(I'-I)\cos\theta\;Wc}
-\label{eq:psimin}
-\end{equation}
-
-Para $\theta=30^\circ$, a equação~\ref{eq:psimin} fornece $\psid_{\mathrm{min}}=80,8\un{rad/s}=771\un{rpm}$; para $\theta=60^\circ$, fornece $586\un{rpm}$. O valor de $1800\un{rpm}$ supera com folga esses limites, o que garante as duas soluções em toda a faixa estudada. Abaixo de $\psid_{\mathrm{min}}$, nenhuma precessão permanente é possível para a inclinação considerada.
-
 \subsection{Item (b): condição para spin muito elevado}
 
 Colocando $\phid$ em evidência na equação~\ref{eq:quad}, a condição de precessão permanente escreve-se como na equação~\ref{eq:bafi}.
@@ -526,17 +517,6 @@ A Figura~\ref{fig:erro} ilustra esses resultados. O painel (a) compara a taxa ex
 \label{fig:erro}
 \end{figure}
 
-\subsection{Aprofundamento: influência do spin}
-
-A Figura~\ref{fig:spin} amplia a análise para outros valores de \textit{spin}. No painel (a), em escala logarítmica e para $\theta=30^\circ$, as duas raízes nascem juntas em $\psid_{\mathrm{min}}$ (equação~\ref{eq:psimin}) e afastam-se à medida que o \textit{spin} aumenta: a raiz rápida cresce e a lenta decresce. A linha pontilhada marca o valor do problema. O painel (b), em escala bilogarítmica, confirma a tendência prevista pela equação~\ref{eq:errofechado}: o erro cai aproximadamente com $1/\psid^{\,2}$ e fica abaixo de $1\%$ a partir de cerca de $4000\un{rpm}$ para $\theta=30^\circ$.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth]{efeito_spin.pdf}
-\caption[Influência do \textit{spin} nas raízes e no erro]{Influência do \textit{spin}: (a) raízes da equação de precessão para $\theta=30^\circ$; (b) erro da aproximação para $\theta=30^\circ$ e $\theta=60^\circ$. A linha pontilhada indica $1800\un{rpm}$.}
-\label{fig:spin}
-\end{figure}
-
 \subsection{Aprofundamento: reações no apoio e energia}
 
 Em precessão permanente, $G$ descreve uma circunferência horizontal de raio $c\seno\theta$ com velocidade angular $\phid$; sua aceleração é, portanto, centrípeta, de módulo $(c\seno\theta)\phid^{\,2}$, e não há aceleração vertical. A segunda lei de Newton fornece as reações em $O$ indicadas na Figura~\ref{fig:dcl}(b), cujas intensidades são dadas pela equação~\ref{eq:reacoes}.
@@ -632,7 +612,7 @@ O trabalho aplicou a dinâmica tridimensional do corpo rígido à precessão per
 
 Para $\psid=1800\un{rpm}$, a taxa lenta permanece próxima de $3,5\un{rad/s}$ em toda a faixa, enquanto a rápida varia de $69$ a $122\un{rad/s}$. A condição simplificada $\phid_a\approx Wc/(I\psid)$ apresentou erro entre $2,72\%$ e $4,82\%$ em relação à raiz lenta, sempre por falta. Tal erro é aceitável para estimativas de engenharia e diminui rapidamente com o aumento do \textit{spin}, aproximadamente com o inverso de seu quadrado.
 
-O aprofundamento mostrou que as duas soluções existem somente acima de um \textit{spin} mínimo. Mostrou também por que somente a precessão lenta é observada em um pião comum: a rápida exigiria forças horizontais muito superiores ao peso e uma energia consideravelmente maior. A integração numérica independente reproduziu as taxas de precessão previstas, com $\theta$ constante e energia conservada, conforme os gráficos do Apêndice~B, o que confere confiança à solução.
+O aprofundamento mostrou por que somente a precessão lenta é observada em um pião comum: a rápida exigiria forças horizontais muito superiores ao peso e uma energia consideravelmente maior. A integração numérica independente reproduziu as taxas de precessão previstas, com $\theta$ constante e energia conservada, conforme os gráficos do Apêndice~B, o que confere confiança à solução.
 
 O modelo tem limitações que convém registrar: o atrito é desprezado, de modo que o decaimento do \textit{spin} não é representado, e o ponto de apoio é considerado perfeitamente fixo. Em um pião real, a ponta tem dimensão finita e pode deslizar. Esses efeitos constituem extensões naturais do estudo.
 
@@ -663,13 +643,12 @@ Este apêndice reproduz integralmente o programa em Python utilizado no trabalho
 \textbf{Função} & \textbf{Finalidade}\\
 \midrule
 \texttt{raizes} & raízes da equação de precessão permanente\\
-\texttt{erro\_pct} e \texttt{psi\_min} & erro da aproximação e \textit{spin} mínimo\\
+\texttt{erro\_pct} & erro da aproximação\\
 \texttt{deriv} & equações de Euler e cinemática de quatérnios\\
 \texttt{\_integra} & integração pelo método de Runge--Kutta\\
 \texttt{simula} & execução da integração e armazenamento dos resultados\\
 \texttt{fig\_taxas} & Figura~\ref{fig:taxas}\\
 \texttt{fig\_erro} & Figura~\ref{fig:erro}\\
-\texttt{fig\_spin} & Figura~\ref{fig:spin}\\
 \texttt{fig\_simulacao} & Figura~\ref{fig:simulacao}\\
 \texttt{fig\_apendice} & Figura~\ref{fig:apendice}\\
 \texttt{relatorio\_numerico} & impressão dos valores utilizados no relatório\\
